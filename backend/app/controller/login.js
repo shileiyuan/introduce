@@ -7,11 +7,19 @@ class LoginCtrl extends Controller {
       username: { type: 'string' },
       password: { type: 'string' },
     })
-    const user = await this.ctx.service.login.login(username, password)
-    if (user) {
-      this.ctx.body = user
+    const result = await this.ctx.service.login.login(username, password)
+    if (result) {
+      this.ctx.body = {
+        success: true,
+        msg: '登陆成功',
+        data: result
+      }
     } else {
-      this.ctx.body = 'login failed'
+      this.ctx.status = 401
+      this.ctx.body = {
+        success: false,
+        msg: '用户名或密码错误'
+      }
     }
   }
   async addUser() {

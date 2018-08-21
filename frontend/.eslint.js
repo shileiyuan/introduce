@@ -13,13 +13,14 @@ module.exports = {
     R: 'ramda',
     cls: 'classnames'
   },
-  plugins: [
-    'compat'
-  ],
+  // plugins: [
+  //   'compat'
+  // ],
   rules: {
     'space-before-function-paren': 0,
     'react/prop-types': 0,
     'space-before-function-paren': 'off',
-    'semi': [2,  'never']
+    'semi': [2,  'never'],
+    'quotes': [2, 'single']
   },
 };

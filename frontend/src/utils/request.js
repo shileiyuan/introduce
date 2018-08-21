@@ -40,7 +40,7 @@ const request = axios.create({
   }
 })
 
-request.interceptors.response.use(checkStatus, catchError)
+// request.interceptors.response.use(checkStatus, catchError)
 request.interceptors.response.use(res => res.data)
 
 export default request

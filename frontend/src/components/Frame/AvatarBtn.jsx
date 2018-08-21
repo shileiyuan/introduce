@@ -15,7 +15,7 @@ class AvatarBtn extends Component {
       <Dropdown overlay={menu} trigger={['click']}>
         <div className='avatar-container'>
           <Avatar size='large'>{username}</Avatar>
-          <Icon type='down' style={{marginLeft: '10px'}} />
+          <Icon type='down' />
         </div>
       </Dropdown >
     );

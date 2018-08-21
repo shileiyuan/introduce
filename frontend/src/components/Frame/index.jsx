@@ -11,6 +11,7 @@ const { Header, Sider, Content } = Layout
 @observer
 export default class Frame extends React.Component {
   render() {
+    console.log(this.props.globalStore.username)
     const { username, logout } = this.props.globalStore
     return (
       <Layout className='layout'>

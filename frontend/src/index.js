@@ -2,9 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import App from './routes/index'
+import { useStrict } from 'mobx'
+import '../assets/styles/index.less'
+
+// useStrict(true)
 
 if (process.env.NODE_ENV !== 'production') {
-  require('./mocks')
+  // require('./mocks')
 }
 const render = (Component) => {
   ReactDOM.render(

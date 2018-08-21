@@ -1,6 +1,7 @@
 module.exports = app => {
   const { router, controller } = app
-  router.get('/', controller.hello.index)
+  const auth = app.middleware.auth()
+  router.get('/', auth, controller.hello.index)
   router.post('/login', controller.login.index)
-  router.post('/addUser', controller.login.addUser)
+  router.post('/addUser', auth, controller.login.addUser)
 }
