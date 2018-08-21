@@ -1,27 +1,30 @@
 module.exports = appInfo => {
   const config = {}
 
-  config.keys = 'ysl' + appInfo.name;
+  config.keys = 'ysl' + appInfo.name
 
-  config.mysql = {
-    // 单数据库信息配置
-    client: {
-      // host
-      host: 'localhost',
-      // 端口号
-      port: '3306',
-      // 用户名
-      user: 'root',
-      // 密码
-      password: 'mafan2011',
-      // 数据库名
-      database: 'panda',
+  config.sequelize = {
+    dialect: 'mysql',
+    database: 'panda',
+    host: 'localhost',
+    port: '3306',
+    username: 'root',
+    password: 'mafan2011',
+    define: {
+      // http://docs.sequelizejs.com/manual/tutorial/models-definition.html#configuration
+      timestamps: false,
+      freezeTableName: true
     },
-    // 是否加载到 app 上，默认开启
-    app: true,
-    // 是否加载到 agent 上，默认关闭
-    agent: false,
-  };
+    pool: {
+      max: 5,
+      idle: 30000,
+      acquire: 60000,
+    },
+  }
 
-  return config;
-};
+  config.security = {
+    csrf: false
+  }
+
+  return config
+}
