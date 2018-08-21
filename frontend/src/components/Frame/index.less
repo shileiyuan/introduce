@@ -1,0 +1,31 @@
+.layout {
+  &-header {
+    background: #FFF;
+    box-shadow: 0 2px 8px #f0f1f2;
+    transition: all .3s;
+    z-index: 10;
+    .avatar-container {
+      float: right;
+      line-height: initial;
+      margin-top: 12px;
+      cursor: pointer;
+      .ant-avatar {
+        background-color: #ffbf00;
+        vertical-align: middle;
+      }
+    }
+  }
+  &-container {
+    padding-top: 40px;
+    background: #FFF;
+  }
+  &-sider {
+    background: #FFF;
+  }
+  &-content {
+    padding-left: 64px;
+    min-height: 500px;
+    max-height: ~'calc(100vh - 104px)';
+    border: 1px solid red;
+  }
+}
