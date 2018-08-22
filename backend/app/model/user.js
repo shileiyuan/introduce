@@ -15,7 +15,7 @@ module.exports = app => {
     password: STRING(32),
     age: INTEGER,
     updateTime: {
-      type: STRING,
+      type: DATE,
       field: 'update_time'
     }
   })

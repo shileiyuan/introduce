@@ -16,9 +16,9 @@ const { stores, Stores } = store
 export default class App extends React.Component {
   componentDidMount() {
     const { isLogined } = stores.globalStore
-    if(isLogined) {
+    if (isLogined) {
       stores.globalStore.getUserInfo()
-    } 
+    }
   }
 
   render() {
@@ -27,14 +27,14 @@ export default class App extends React.Component {
       <Provider {...stores} {...Stores}>
         <Router>
           {
-            isLogined ?
-              <Frame>
+            isLogined
+              ? <Frame>
                 <Switch>
                   <Route path='/UserList' component={UserList} />
                   <Redirect to='/UserList' />
                 </Switch>
-              </Frame> :
-              <Switch>
+              </Frame>
+              : <Switch>
                 <Route path='/Login' component={Login} />
                 <Redirect to='/Login' />
               </Switch>
