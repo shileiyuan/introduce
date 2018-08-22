@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { Table, Pagination } from 'antd'
 import { observer, inject } from 'mobx-react'
 import { toJS } from 'mobx'
+import './index.less'
 
-const PAGE_SIZE = 8
+const PAGE_SIZE = 3
 
 @inject('userListStore')
 @observer
@@ -31,11 +32,15 @@ class UserList extends Component {
     const columns = [
       {
         title: 'Name',
-        dataIndex: 'name'
+        dataIndex: 'username'
       },
       {
         title: 'Age',
         dataIndex: 'age'
+      },
+      {
+        title: 'Update time',
+        dataIndex: 'updateTime'
       }
     ]
     const { userList, total } = this.props.userListStore
@@ -59,11 +64,12 @@ class UserList extends Component {
           return <a>Next</a>
         }
         return originalElement
-      }
+      },
+      className: 'user-pagination'
     }
     const dataSource = this.getDataSource(userList, current, total, pageSize)
     return (
-      <div>
+      <div className='page-user-list'>
         <Table dataSource={toJS(dataSource)} columns={columns} rowKey='id' pagination={false} />
         <Pagination {...paginationProps} />
       </div>

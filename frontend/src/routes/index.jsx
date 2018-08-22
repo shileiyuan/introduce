@@ -14,6 +14,12 @@ import Login from './Login'
 const { stores, Stores } = store
 @observer
 export default class App extends React.Component {
+  componentDidMount() {
+    const { isLogined } = stores.globalStore
+    if(isLogined) {
+      stores.globalStore.getUserInfo()
+    } 
+  }
 
   render() {
     const { isLogined } = stores.globalStore

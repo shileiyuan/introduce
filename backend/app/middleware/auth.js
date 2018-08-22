@@ -4,7 +4,7 @@ module.exports = () => {
   return async function auth(ctx, next) {
     const { header, cert } = ctx.app.config.jwt
     try {
-      let decode = jwt.verify(header, cert)
+      const decode = jwt.verify(ctx.get(header), cert)
       ctx.userId = decode.id
     } catch (err) {
       ctx.status = 401

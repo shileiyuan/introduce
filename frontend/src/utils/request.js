@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { notification } from 'antd'
+import CONFIG from '../utils/config'
 
-function checkStatus (response) {
+function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response
   }
@@ -17,7 +18,7 @@ function checkStatus (response) {
 
   throw error
 }
-function catchError (error) {
+function catchError(error) {
   if (error.code) {
     notification.error({
       message: error.name,
@@ -32,15 +33,25 @@ function catchError (error) {
   return error
 }
 
-const request = axios.create({
+function configRequest(config) {
+  const token = localStorage.getItem(CONFIG.AUTH_TOKEN_STORAGE_KEY)
+  if (config.url !== '/login' && token) {
+    config.headers[CONFIG.AUTH_TOKEN_HEADER] = token
+  }
+  return config
+}
+
+const instance = axios.create({
   baseURL: '/api',
+  withCredentials: false,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json; charset=utf-8'
   }
 })
 
-// request.interceptors.response.use(checkStatus, catchError)
-request.interceptors.response.use(res => res.data)
+instance.interceptors.request.use(configRequest)
+// instance.interceptors.response.use(checkStatus, catchError)
+instance.interceptors.response.use(res => res.data)
 
-export default request
+export default instance

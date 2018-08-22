@@ -4,4 +4,6 @@ module.exports = app => {
   router.get('/', auth, controller.hello.index)
   router.post('/login', controller.login.index)
   router.post('/addUser', auth, controller.login.addUser)
+  router.get('/user/list', auth, controller.user.list)
+  router.get('/user/getUserInfoByToken', auth, controller.user.getUserInfoByToken)
 }

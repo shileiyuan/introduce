@@ -1,15 +1,18 @@
 import { observable, action, runInAction } from 'mobx'
-import { queryUserList } from '../services/UserList'
+import request from '../utils/request'
+import API from '../utils/API'
 
 export default class AppOutline {
   @observable userList = []
   @observable total = 0
 
   @action async queryUserList() {
-    const response = await queryUserList()
+    const response = await request(API.query_userList)
     runInAction(() => {
-      this.userList = response.data
-      this.total = response.total
+      if (response.success) {
+        this.userList = response.data
+        this.total = response.total
+      }
     })
   }
 }
