@@ -6,4 +6,7 @@ module.exports = app => {
   router.post('/addUser', auth, controller.login.addUser)
   router.get('/user/list', auth, controller.user.list)
   router.get('/user/getUserInfoByToken', auth, controller.user.getUserInfoByToken)
+  
+  // kanban
+  router.get('/kanban/list', auth, controller.kanban.list)
 }

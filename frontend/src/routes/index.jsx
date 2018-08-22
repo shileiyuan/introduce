@@ -8,8 +8,9 @@ import {
 } from 'react-router-dom'
 import store from '../stores/index'
 import Frame from '../components/Frame/index'
-import UserList from './UserList'
 import Login from './Login'
+import UserList from './UserList'
+import Kanban from './Kanban'
 
 const { stores, Stores } = store
 @observer
@@ -31,6 +32,7 @@ export default class App extends React.Component {
               ? <Frame>
                 <Switch>
                   <Route path='/UserList' component={UserList} />
+                  <Route path='/Kanban' component={Kanban} />
                   <Redirect to='/UserList' />
                 </Switch>
               </Frame>

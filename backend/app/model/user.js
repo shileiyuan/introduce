@@ -4,7 +4,6 @@ module.exports = app => {
   const User = app.model.define('user', {
     id: {
       type: UUID,
-      field: 'iduser',
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },

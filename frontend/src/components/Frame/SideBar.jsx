@@ -8,6 +8,7 @@ export default class SideBar extends React.Component {
     return (
       <Menu style={{ paddingLeft: 40 }}>
         <Item><Link to='/UserList'>UserList</Link></Item>
+        <Item><Link to='/Kanban'>Kanban</Link></Item>
       </Menu>
     )
   }
