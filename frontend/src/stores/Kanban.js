@@ -2,7 +2,7 @@ import { observable, action, runInAction, extendObservable } from 'mobx'
 import request from '../utils/request'
 import API from '../utils/API'
 
-export default class Kanban {
+class Kanban {
   @observable lanes = []
   @observable tasksMap = {}
 
@@ -20,8 +20,11 @@ export default class Kanban {
             }
           })
         })
+        this.tasksMap = {}
         extendObservable(this.tasksMap, tasks)
       })
     }
   }
 }
+
+export default new Kanban()

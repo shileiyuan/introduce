@@ -7,7 +7,7 @@ module.exports = () => {
       const decode = jwt.verify(ctx.get(header), cert)
       ctx.userId = decode.id
     } catch (err) {
-      ctx.status = 401
+      ctx.status = 403
       ctx.body = {
         success: false,
         msg: '授权失败，请重新登录'

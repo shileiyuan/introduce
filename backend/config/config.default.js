@@ -28,7 +28,7 @@ module.exports = appInfo => {
     jwt: {
       cert: 'introduce_cert',
       options: {
-        expiresIn: '2h'
+        expiresIn: '1h'
       },
       header: 'x-auth-token'
     },

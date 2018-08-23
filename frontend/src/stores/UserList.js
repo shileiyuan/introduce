@@ -2,7 +2,7 @@ import { observable, action, runInAction } from 'mobx'
 import request from '../utils/request'
 import API from '../utils/API'
 
-export default class AppOutline {
+class UserList {
   @observable userList = []
   @observable total = 0
 
@@ -16,3 +16,5 @@ export default class AppOutline {
     })
   }
 }
+
+export default new UserList()

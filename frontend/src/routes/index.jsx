@@ -6,41 +6,25 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom'
-import store from '../stores/index'
-import Frame from '../components/Frame/index'
+import store from '../stores'
 import Login from './Login'
-import UserList from './UserList'
-import Kanban from './Kanban'
 
-const { stores, Stores } = store
+import Home from './Home'
+
 @observer
-export default class App extends React.Component {
-  componentDidMount() {
-    const { isLogined } = stores.globalStore
-    if (isLogined) {
-      stores.globalStore.getUserInfo()
-    }
-  }
-
+export default class Root extends React.Component {
   render() {
-    const { isLogined } = stores.globalStore
+    const { isAuthed } = store.globalStore
     return (
-      <Provider {...stores} {...Stores}>
+      <Provider {...store}>
         <Router>
-          {
-            isLogined
-              ? <Frame>
-                <Switch>
-                  <Route path='/UserList' component={UserList} />
-                  <Route path='/Kanban' component={Kanban} />
-                  <Redirect to='/UserList' />
-                </Switch>
-              </Frame>
-              : <Switch>
-                <Route path='/Login' component={Login} />
-                <Redirect to='/Login' />
-              </Switch>
-          }
+          <Switch>
+            <Route path='/Login' render={() => isAuthed ? <Redirect to='/Home' /> : <Login />} />
+            <Route path='/Home' render={props => isAuthed ? <Home {...props} /> : <Redirect to='/Login' />} />
+            <Route render={props => isAuthed
+              ? <Home {...props} />
+              : <Redirect to='/Login' />} />
+          </Switch>
         </Router>
       </Provider>
     )
