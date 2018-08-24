@@ -1,0 +1,43 @@
+.kanban {
+  font-size: 16px;
+  @lane-width: 100px;
+  height: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  min-width: @lane-width * 3 + 100px;
+
+  .lane {
+    background-color: #e2ffa8;
+    user-select: none;
+    width: @lane-width;
+     &-title {
+       text-align: center;
+     }
+  }
+  .task {
+    margin-top: 5px;
+    padding: 5px;
+    background: #fff;
+    border: 1px solid black;
+    &-header {
+      .avatar {
+        font-size: 12px;
+        color: #ffbf00;
+      }
+    }
+    &-title {
+      padding: 5px;
+    }
+    &-content {
+
+    }
+    .arrow {
+      text-align: center;
+      i {
+        font-size: 12px;
+        cursor: pointer;
+      }
+    }
+  }
+}

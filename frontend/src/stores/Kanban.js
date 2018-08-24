@@ -7,19 +7,24 @@ class Kanban {
   @observable tasksMap = {}
 
   @action queryList = async () => {
-    const response = await request.get(API.query_kanban_list)
-    if (response.success) {
-      runInAction(() => {
-        this.lanes = response.data.lanes
-        const tasks = {}
-        response.data.lanes.forEach(lane => {
-          tasks[lane.id] = []
-          response.data.tasks.forEach(task => {
-            if (task.laneId === lane.id) {
-              tasks[lane.id].push(task)
-            }
-          })
+    const [kanbanResult, userResult] = await Promise.all([request.get(API.query_kanban_list), request.get(API.query_userList)])
+    if (kanbanResult.success && userResult.success) {
+      const userMap = {}
+      userResult.data.forEach(user => {
+        userMap[user.id] = user
+      })
+      const tasks = {}
+      kanbanResult.data.lanes.forEach(lane => {
+        tasks[lane.id] = []
+        kanbanResult.data.tasks.forEach(task => {
+          if (task.laneId === lane.id) {
+            task.userName = userMap[task.userId].name
+            tasks[lane.id].push(task)
+          }
         })
+      })
+      runInAction(() => {
+        this.lanes = kanbanResult.data.lanes
         this.tasksMap = {}
         extendObservable(this.tasksMap, tasks)
       })

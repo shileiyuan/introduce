@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import Frame from '../components/Frame'
-import UserList from './UserList'
-import Kanban from './Kanban'
 import {
   Route,
   Switch,
   Redirect
 } from 'react-router-dom'
+import Frame from '../components/Frame'
+import UserList from './UserList'
+import Kanban from './Kanban'
 
 class Home extends Component {
   render() {

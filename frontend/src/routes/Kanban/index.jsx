@@ -1,6 +1,6 @@
 import React from 'react'
-import './index.less'
 import { observer, inject } from 'mobx-react'
+import './index.less'
 import Lane from './Lane'
 
 @inject('kanbanStore')
@@ -12,10 +12,14 @@ export default class Kanban extends React.Component {
   render() {
     const { lanes, tasksMap } = this.props.kanbanStore
     return (
-      lanes.map(lane => {
-        const laneId = lane.id
-        return <Lane key={laneId} lane={lane} tasks={tasksMap[laneId] || []} />
-      })
+      <div className='kanban'>
+        {
+          lanes.map(lane => {
+            const laneId = lane.id
+            return <Lane key={laneId} lane={lane} tasks={tasksMap[laneId] || []} />
+          })
+        }
+      </div>
     )
   }
 }

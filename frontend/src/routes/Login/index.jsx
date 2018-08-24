@@ -22,10 +22,10 @@ class Login extends Component {
     return (
       <Form onSubmit={this.handleSubmit} className='login-form' autoComplete='off'>
         <FormItem>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }]
+          {getFieldDecorator('name', {
+            rules: [{ required: true, message: 'Please input your name!' }]
           })(
-            <Input prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder='Username' />
+            <Input prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder='Name' />
           )}
         </FormItem>
         <FormItem>

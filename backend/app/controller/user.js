@@ -15,7 +15,7 @@ class UserCtrl extends Controller {
     this.ctx.body = {
       success: true,
       data: {
-        username: data.username
+        name: data.name
       }
     }
   }

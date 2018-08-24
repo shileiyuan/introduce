@@ -7,10 +7,7 @@ module.exports = app => {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    username: {
-      type: STRING,
-      field: 'name'
-    },
+    name: STRING,
     password: STRING(32),
     age: INTEGER,
     updateTime: {

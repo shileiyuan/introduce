@@ -2,12 +2,12 @@ const Controller = require('egg').Controller
 
 class LoginCtrl extends Controller {
   async index() {
-    const { username, password } = this.ctx.request.body
+    const { name, password } = this.ctx.request.body
     this.ctx.validate({
-      username: { type: 'string' },
+      name: { type: 'string' },
       password: { type: 'string' },
     })
-    const result = await this.ctx.service.login.login(username, password)
+    const result = await this.ctx.service.login.login(name, password)
     if (result) {
       this.ctx.body = {
         success: true,
@@ -23,8 +23,8 @@ class LoginCtrl extends Controller {
     }
   }
   async addUser() {
-    const { username, password, age } = this.ctx.request.body
-    const id = await this.ctx.service.login.addUser(username, password, age)
+    const { name, password, age } = this.ctx.request.body
+    const id = await this.ctx.service.login.addUser(name, password, age)
     this.ctx.body = id
   }
 }

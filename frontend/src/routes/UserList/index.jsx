@@ -32,7 +32,7 @@ class UserList extends Component {
     const columns = [
       {
         title: 'Name',
-        dataIndex: 'username'
+        dataIndex: 'name'
       },
       {
         title: 'Age',

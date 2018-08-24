@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Avatar, Dropdown, Menu, Icon } from 'antd'
 
 class AvatarBtn extends Component {
   render() {
-    const { username, logout } = this.props
+    const { name, logout } = this.props
     const menu = (
       <Menu>
         <Menu.Item key='logout' onClick={logout}>
@@ -14,11 +14,11 @@ class AvatarBtn extends Component {
     return (
       <Dropdown overlay={menu} trigger={['click']}>
         <div className='avatar-container'>
-          <Avatar size='large'>{username}</Avatar>
+          <Avatar size='large'>{name}</Avatar>
           <Icon type='down' />
         </div>
       </Dropdown >
-    );
+    )
   }
 }
-export default AvatarBtn;
+export default AvatarBtn
