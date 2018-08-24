@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "egg-bin dev"
+    "start": "egg-bin dev --inspect=9230"
   },
   "dependencies": {
     "egg": "^2.10.0",

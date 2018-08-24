@@ -17,11 +17,18 @@
   }
   .task {
     margin-top: 5px;
-    padding: 5px;
+    // padding: 5px;
     background: #fff;
     border: 1px solid black;
     &-header {
+      padding: 5px;
+      border-bottom: 1px solid black;
+      overflow: hidden;
+      .order {
+        float: left;
+      }
       .avatar {
+        float: right;
         font-size: 12px;
         color: #ffbf00;
       }

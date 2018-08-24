@@ -2,7 +2,7 @@ const Lane = require('./lane')
 const User = require('./user')
 
 module.exports = app => {
-  const { STRING, UUID, DataTypes } = app.Sequelize
+  const { STRING, UUID, DataTypes, INTEGER } = app.Sequelize
 
   const Task = app.model.define('task', {
     id: {
@@ -29,7 +29,8 @@ module.exports = app => {
         model: User,
         key: 'id',
       }
-    }
+    },
+    order: INTEGER
   })
   return Task
 }

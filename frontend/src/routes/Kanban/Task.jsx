@@ -3,17 +3,18 @@ import { Icon } from 'antd'
 
 class Task extends Component {
   state = {
-    contentVisible: true
+    contentVisible: false
   }
   toggleContent = contentVisible => {
     this.setState({ contentVisible })
   }
   render() {
-    const { title, userName, content } = this.props.task
+    const { title, userName, content, order } = this.props.task
     const { contentVisible } = this.state
     return (
       <div className='task'>
         <div className='task-header'>
+          <div className='order'>{order}</div>
           <div className='avatar'>{userName}</div>
         </div>
         <div className='task-title'>{title}</div>
