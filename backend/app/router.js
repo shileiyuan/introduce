@@ -9,5 +9,5 @@ module.exports = app => {
 
   // kanban
   router.get('/kanban/list', auth, controller.kanban.list)
-  router.post('/kanban/changeOrder', auth, controller.kanban.changeOrder)
+  router.post('/kanban/moveTask', auth, controller.kanban.moveTask)
 }

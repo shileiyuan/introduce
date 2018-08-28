@@ -8,9 +8,9 @@ class KanbanCtrl extends Controller {
       data
     }
   }
-  async changeOrder() {
-    const { taskIds, laneId } = this.ctx.request.body
-    const data = await this.ctx.service.kanban.changeOrder({ taskIds, laneId })
+  async moveTask() {
+    const { taskId, taskIds, laneId } = this.ctx.request.body
+    const data = await this.ctx.service.kanban.moveTask({ taskId, taskIds, laneId })
     this.ctx.body = {
       success: true,
       data

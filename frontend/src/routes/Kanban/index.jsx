@@ -13,7 +13,7 @@ export default class Kanban extends React.Component {
     this.props.kanbanStore.queryList()
   }
   render() {
-    const { lanes, tasksMap, overTargetTask, dropTask } = this.props.kanbanStore
+    const { lanes, tasksMap, moveTask } = this.props.kanbanStore
     return (
       <div className='kanban'>
         {
@@ -24,8 +24,7 @@ export default class Kanban extends React.Component {
                 key={laneId}
                 lane={lane}
                 tasks={tasksMap[laneId] || []}
-                overTargetTask={overTargetTask}
-                dropTask={dropTask}
+                moveTask={moveTask}
               />
             )
           })

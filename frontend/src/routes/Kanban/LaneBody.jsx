@@ -1,44 +1,82 @@
 import React, { Component } from 'react'
+import { findDOMNode } from 'react-dom'
 import { observer } from 'mobx-react'
 import { DropTarget } from 'react-dnd'
 import CONFIG from '../../utils/config'
 import Task from './Task'
 
-const laneTarget = {
-  drop(props, monitor) {
-    // const task = monitor.getItem()
-    // const taskId = task.id
-    // const fromLaneId = task.laneId
-    // const toLaneId = props.lane.id
-    // props.moveTask(taskId, fromLaneId, toLaneId)
+const { OFFSET_HEIGHT, CARD_HEIGHT, CARD_MARGIN } = CONFIG
+function getPlaceholderIndex(y, scrollY) {
+  // shift placeholder if y position more than card height / 2
+  const yPos = y - OFFSET_HEIGHT + scrollY
+  let placeholderIndex
+  if (yPos < CARD_HEIGHT / 2) {
+    placeholderIndex = 0 // place at the start
+  } else {
+    placeholderIndex = Math.ceil((yPos - CARD_HEIGHT / 2) / (CARD_HEIGHT + CARD_MARGIN))
+  }
+  return placeholderIndex
+}
+const target = {
+  drop(props, monitor, component) {
+    const item = monitor.getItem()
+    const task = item.task
+    const fromLaneId = task.laneId
+    const fromIndex = item.index
+    const toLaneId = props.laneId
+    let toIndex = component.state.placeholderIndex
+    // 当从上往下移动的时候，toIndex需要减一
+    if (fromLaneId === toLaneId && fromIndex < toIndex) {
+      toIndex -= 1
+    }
+    if (fromLaneId === toLaneId && fromIndex === toIndex) return
+    props.moveTask(task, fromLaneId, fromIndex, toLaneId, toIndex)
   },
-  // canDrop(props, monitor) {
-  //   const currentLaneId = props.laneMeta.id
-  //   const taskOflaneId = monitor.getItem().laneId
-  //   return currentLaneId !== taskOflaneId
-  // }
+  hover(props, monitor, component) {
+    const { y } = monitor.getClientOffset()
+    const placeholderIndex = getPlaceholderIndex(y, findDOMNode(component).scrollTop)
+    component.setState({ placeholderIndex })
+    const item = monitor.getItem()
+    document.getElementById(item.task.id).style.display = 'none'
+  }
 }
 const collect = (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver({ shallow: true })
-  // canDrop: monitor.canDrop()
+  isOver: monitor.isOver()
 })
 
-@DropTarget(CONFIG.DND_TYPES.TASK, laneTarget, collect)
+@DropTarget(CONFIG.DND_TYPES.TASK, target, collect)
 @observer
 class LaneBody extends Component {
+  state = {
+    placeholderIndex: undefined
+  }
   render() {
-    const { tasks, connectDropTarget, isOver, ...rest } = this.props
-    console.log('LaneBody', isOver)
+    const { placeholderIndex } = this.state
+    const { tasks, connectDropTarget, isOver } = this.props
+    const placeholder = <div key='placeholder' className='task placeholder' />
+    const taskList = []
+    let isPlaceHold = false
+    tasks.forEach((task, i) => {
+      if (isOver) {
+        isPlaceHold = false
+        if (placeholderIndex === i) {
+          taskList.push(placeholder)
+        } else if (placeholderIndex > i) {
+          isPlaceHold = true
+        }
+      }
+
+      taskList.push(<Task key={task.id} task={task} index={i} />)
+    })
+
+    if (isOver && (isPlaceHold || tasks.length === 0)) {
+      taskList.push(placeholder)
+    }
     return (
       connectDropTarget(
         <div className='lane-body'>
-          {
-            tasks.map(task => {
-              const taskId = task.id
-              return <Task key={taskId} task={task} {...rest} />
-            })
-          }
+          {taskList}
         </div>
       )
     )

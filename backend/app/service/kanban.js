@@ -10,10 +10,11 @@ class KanbanService extends Service {
     }
   }
 
-  async changeOrder({ taskIds, laneId }) {
+  async moveTask({ taskId, taskIds, laneId }) {
     // const { Task, transaction } = this.ctx.model
     const { Task } = this.ctx.model
-    let affectedRows = 0
+    await Task.update({ laneId }, { where: { id: taskId } })
+    let rows = 0
     // let results = []
     // const now = Date.now()
     // transaction(async t => {
@@ -36,11 +37,11 @@ class KanbanService extends Service {
 
     for (let i = 0; i < taskIds.length; i++) {
       const [affectedNum] = await Task.update({ order: i }, { where: { id: taskIds[i], laneId } })
-      affectedRows += affectedNum
+      rows += affectedNum
     }
     // console.log(Date.now() - now, affectedRows)
 
-    return { affectedRows }
+    return { rows }
   }
 }
 

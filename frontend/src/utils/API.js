@@ -5,7 +5,8 @@ const API = {
   login: '/login',
   get_user_info: '/user/getUserInfoByToken',
   // kanban
-  query_kanban_list: '/kanban/list'
+  query_kanban_list: '/kanban/list',
+  kanban_moveTask: 'kanban/moveTask'
 }
 
 export default API

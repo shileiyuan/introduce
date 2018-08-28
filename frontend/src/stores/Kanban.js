@@ -1,7 +1,6 @@
 import { observable, action, runInAction, extendObservable } from 'mobx'
 import request from '../utils/request'
 import API from '../utils/API'
-import CONFIG from '../utils/config'
 
 class Kanban {
   @observable lanes = []
@@ -34,44 +33,21 @@ class Kanban {
 
   @action getLane = laneId => this.tasksMap[laneId] || []
 
-  @action dropTask = (sourceTask, targetTask) => {
-    console.log('drop', sourceTask.id, targetTask.id)
-    const sourceLane = this.getLane(sourceTask.laneId)
-    const targetLane = this.getLane(targetTask.laneId)
-    const sourceTaskIndex = sourceLane.findIndex(task => task.id === sourceTask.id)
-    const holderIndex = targetLane.findIndex(task => task.id === CONFIG.PLACE_HOLDER_ID)
-    console.log('holderIndex', holderIndex)
-    sourceLane.splice(sourceTaskIndex, 1)
-    targetLane[holderIndex] = {
-      ...sourceTask,
-      laneId: targetTask.laneId
-    }
-  }
-
-  @action overTargetTask = (sourceTask, targetTask) => {
-    const targetLane = this.getLane(targetTask.laneId)
-    const targetTaskIndex = targetLane.findIndex(task => task.id === targetTask.id)
-    const oldPlaceHolderIndex = targetLane.findIndex(task => task.id === CONFIG.PLACE_HOLDER_ID)
-    // 移动到不同的lane
-    if (sourceTask.laneId !== targetTask.laneId) {
-      if (oldPlaceHolderIndex > -1) {
-        // 如果当前的lane中已经有holder了，就将当前状态为isOver的task与holder交换位置
-        const temp = targetLane[oldPlaceHolderIndex]
-        targetLane[oldPlaceHolderIndex] = targetLane[targetTaskIndex]
-        targetLane[targetTaskIndex] = temp
-      } else {
-        // 否则当前lane中如果还没有holder就添加一个
-        targetLane.splice(targetTaskIndex, 0, { id: CONFIG.PLACE_HOLDER_ID, title: 'abc', laneId: targetTask.laneId })
-      }
-    } else {
-      // 在同一个lane中移动
-      if (sourceTask.id !== targetTask.id) {
-        const sourceTaskIndex = targetLane.findIndex(task => task.id === sourceTask.id)
-        const temp = targetLane[sourceTaskIndex]
-        targetLane[sourceTaskIndex] = targetLane[targetTaskIndex]
-        targetLane[targetTaskIndex] = temp
-      }
-    }
+  @action moveTask = (task, fromLaneId, fromIndex, toLaneId, toIndex) => {
+    console.log(fromIndex, toIndex)
+    const fromLane = this.getLane(fromLaneId)
+    const toLane = this.getLane(toLaneId)
+    fromLane.splice(fromIndex, 1)
+    toLane.splice(toIndex, 0, {
+      ...task,
+      laneId: toLaneId
+    })
+    const taskIds = toLane.map(task => task.id)
+    request.post(API.kanban_moveTask, {
+      taskIds,
+      taskId: task.id,
+      laneId: toLaneId
+    })
   }
 }
 
