@@ -11,11 +11,22 @@
     background-color: #e2ffa8;
     user-select: none;
     width: @lane-width;
-     &-title {
-       text-align: center;
-     }
+    &-title {
+      text-align: center;
+      height: 28px;
+      margin-bottom: 10px;
+    }
+    &-body {
+      height: ~'calc(100% - 38px)';
+    }
   }
   .task {
+    &.is-over {
+      border: 1px solid red;
+    }
+    &.is-dragging {
+      background-color: #ccc;
+    }
     margin-top: 5px;
     // padding: 5px;
     background: #fff;

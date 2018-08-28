@@ -11,6 +11,8 @@ import Login from './Login'
 
 import Home from './Home'
 
+window.store = store
+
 @observer
 export default class Root extends React.Component {
   render() {

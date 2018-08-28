@@ -21,6 +21,7 @@ module.exports = {
     'react/prop-types': 0,
     'space-before-function-paren': 'off',
     'semi': [2,  'never'],
-    'quotes': [2, 'single']
+    'quotes': [2, 'single'],
+    'comma-dangle': 0,
   },
 };
