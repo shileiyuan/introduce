@@ -1,39 +1,19 @@
 import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
-import { DragSource } from 'react-dnd'
 import { Icon } from 'antd'
-import CONFIG from '../../utils/config'
 
-const source = {
-  beginDrag(props, monitor, component) {
-    const { offsetHeight: height } = findDOMNode(component)
-    const { task, index } = props
-    return { task, index, height }
-  },
-  endDrag(props, monitor) {
-    document.getElementById(monitor.getItem().task.id).style.display = 'block'
-  },
-}
-const collect = (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-})
-
-@DragSource(CONFIG.DND_TYPES.TASK, source, collect)
 class Task extends Component {
   render() {
-    const { task, index, connectDragSource, onClick, deleteTask } = this.props
+    const { task, index, onClick, deleteTask } = this.props
     const { title, userName, id, laneId } = task
     return (
-      connectDragSource(
-        <div className='task' id={id} task={task}>
-          <div className='task-header'>
-            <div className='order'>{index + 1}</div>
-            <div className='delete' onClick={() => deleteTask(id, laneId, index)}><Icon type='close' /></div>
-            <div className='avatar'>{userName}</div>
-          </div>
-          <div className='task-title' onClick={() => onClick(task)}>{title}</div>
+      <div className='task' task={task}>
+        <div className='task-header'>
+          <div className='order'>{index + 1}</div>
+          <div className='delete' onClick={() => deleteTask(id, laneId, index)}><Icon type='close' /></div>
+          <div className='avatar'>{userName}</div>
         </div>
-      )
+        <div className='task-title' onClick={() => onClick(task)}>{title}</div>
+      </div>
     )
   }
 }

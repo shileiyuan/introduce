@@ -2,10 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import App from './routes/index'
-import { useStrict } from 'mobx'
+import { configure } from 'mobx'
 import '../assets/styles/index.less'
 
-// useStrict(true)
+configure({
+  enforceActions: true
+})
 
 if (process.env.NODE_ENV !== 'production') {
   // require('./mocks')

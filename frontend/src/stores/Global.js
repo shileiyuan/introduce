@@ -29,13 +29,15 @@ class Global {
   @action getUserInfo = async () => {
     console.log('getUserInfo')
     const response = await request.get(API.get_user_info)
-    if (response.success) {
-      this.isAuthed = true
-      this.userName = response.data.name
-      this.userId = response.data.id
-    } else {
-      this.logout()
-    }
+    runInAction(() => {
+      if (response.success) {
+        this.isAuthed = true
+        this.userName = response.data.name
+        this.userId = response.data.id
+      } else {
+        this.logout()
+      }
+    })
     return response.success
   }
 }

@@ -48,53 +48,52 @@
         }
       }
     }
-    .task {
-      margin-top: 5px;
-      background: #fff;
-      border: 1px solid black;
+  }
+  .task {
+    margin-top: 5px;
+    background: #fff;
+    border: 1px solid black;
 
-      &.placeholder {
-        background: #ccc;
-        height: 71px;
+    &.placeholder {
+      background: #ccc;
+      height: 89px;
+    }
+    &-header {
+      padding: 5px;
+      border-bottom: 1px solid black;
+      overflow: hidden;
+      font-size: 12px;
+      .order {
+        float: left;
       }
-      &-header {
-        padding: 5px;
-        border-bottom: 1px solid black;
-        overflow: hidden;
-        font-size: 12px;
-        .order {
-          float: left;
-        }
-        .avatar {
-          float: right;
-          margin-right: 10px;
-        }
-        .delete {
-          float: right;
-          cursor: pointer;
-          &:hover {
-            color: red;
-          }
-        }
+      .avatar {
+        float: right;
+        margin-right: 10px;
       }
-      &-title {
-        padding: 5px;
-        height: 58px;
-        word-wrap: break-word;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-      }
-      .arrow {
-        text-align: center;
-        i {
-          font-size: 12px;
-          cursor: pointer;
+      .delete {
+        float: right;
+        cursor: pointer;
+        &:hover {
+          color: red;
         }
       }
     }
+    &-title {
+      padding: 5px;
+      height: 58px;
+      word-wrap: break-word;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+    .arrow {
+      text-align: center;
+      i {
+        font-size: 12px;
+        cursor: pointer;
+      }
+    }
   }
-
-
 }
+

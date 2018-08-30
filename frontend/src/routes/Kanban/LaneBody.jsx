@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom'
 import { observer } from 'mobx-react'
 import { DropTarget } from 'react-dnd'
 import CONFIG from '../../utils/config'
-import Task from './Task'
+import DraggableTask from './DraggableTask'
 
 const { OFFSET_HEIGHT, TASK_HEIGHT, TASK_MARGIN } = CONFIG
 function getPlaceholderIndex(y, scrollY) {
@@ -71,7 +71,7 @@ class LaneBody extends Component {
           }
         }
 
-        taskList.push(<Task key={task.id} task={task} index={i} onClick={onTaskClick} deleteTask={deleteTask} />)
+        taskList.push(<DraggableTask key={task.id} task={task} index={i} onClick={onTaskClick} deleteTask={deleteTask} />)
       })
 
     if (isOver && (isPlaceHold || tasks.length === 0)) {

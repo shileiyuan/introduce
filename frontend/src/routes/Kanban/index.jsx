@@ -5,6 +5,7 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import './index.less'
 import Lane from './Lane'
 import Toolbar from './Toolbar'
+import CustomDragLayer from './CustomDragLayer'
 
 @DragDropContext(HTML5Backend)
 @inject('kanbanStore', 'globalStore')
@@ -36,6 +37,7 @@ export default class Kanban extends React.Component {
           filterOwn={filterOwn}
         />
         <div className='lane-container'>
+          <CustomDragLayer />
           {
             lanes.map(lane => {
               const laneId = lane.id
