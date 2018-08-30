@@ -6,6 +6,10 @@
     box-shadow: 0 2px 8px #f0f1f2;
     transition: all .3s;
     z-index: 10;
+    .anticon {
+      color: #40a9ff;
+      cursor: pointer;
+    }
     .avatar-container {
       float: right;
       line-height: initial;
@@ -16,6 +20,7 @@
         vertical-align: middle;
       }
       .anticon {
+        color: inherit;
         margin-left: 10px;
       }
     }
@@ -26,6 +31,10 @@
   }
   &-sider {
     background: #FFF;
+    .side-bar {
+      padding-left: 20px;
+      height: 100%;
+    }
   }
   &-content {
     height: ~'calc(100vh - 110px)';

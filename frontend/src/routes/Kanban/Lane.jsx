@@ -59,17 +59,29 @@ class Lane extends Component {
       this.handleTextAreaCancel()
     }
   }
+  handleKeyKown = e => {
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      this.handleTextAreaCancel()
+    }
+  }
 
   handleTitleChagne = e => {
     this.setState({ title: e.target.value })
   }
-
   renderFooter = () => {
     const { textAreaVisible, title } = this.state
     if (textAreaVisible) {
       return (
         <div className='lane-footer'>
-          <TextArea autosize value={title} onChange={this.handleTitleChagne} onKeyPress={this.handleKeyPress} />
+          <TextArea
+            autosize
+            value={title}
+            onChange={this.handleTitleChagne}
+            onKeyDown={this.handleKeyKown}
+            onKeyPress={this.handleKeyPress}
+            autoFocus
+          />
           <div className='lane-footer-buttons'>
             <Button onClick={this.handleTextAreaCancel}>Cancel</Button>
             <Button type='primary' onClick={this.handleTextAreaOK}>OK</Button>

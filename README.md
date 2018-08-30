@@ -1,22 +1,27 @@
 
 ### Story
-1. 登录
+1. 登录：后端通过jwt返回一个token给前端，前端每次请求都带上该token，并控制路由跳转
 2. kanban
+3. markdown笔记本
 
 
 ### Doing
-1. 拖动功能
+* 隐藏侧边栏
+* 登录验证码
 
 ### Done
-1. 登录： 后端通过jwt返回一个token给前端，前端每次请求都带上该token，并控制路由跳转
-
+* 登录
+* kanban
 
 ### Todo
-1. 登录验证码
+* markdown笔记本
 
 
-### kanban需求描述：
-1. task可以拖动到任意的lane的任意位置
-2. 每一个lane的task都是有序的
+### kanban功能描述：
+* task可以拖动到任意的lane的任意位置
+* 每一个lane的task都是有序的
+* 添加拖动task时的显示效果
+* 添加和删除task
+* 筛选task
 
 

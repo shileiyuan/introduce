@@ -1,16 +1,17 @@
 @import '../../../assets/styles/vars.less';
 .kanban {
+  max-width: 1200px;
   .tool-bar {
     height: @toolbarHeight;
     line-height: @toolbarHeight;
     margin: 0 50px @toolbarMarginBottom @toolbarMarginBottom;
     overflow: hidden;
     &-filter {
-      float: left;
+      float: right;
+      margin-right: 10px;
     }
     &-filter-own {
-      float: left;
-      margin-left: 10px;
+      float: right;
     }
   }
   .lane-container {

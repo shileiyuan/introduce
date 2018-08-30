@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Task from './Task'
 
 let styles = {
-  transform: 'rotate(-7deg)'
+  transform: 'rotate(7deg)'
 }
 
 class TaskDragPreview extends Component {

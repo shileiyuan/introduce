@@ -6,13 +6,6 @@ class Toolbar extends Component {
     const { handleFilterTextChange, filterText, filterOwn, handleFilterOwnChange } = this.props
     return (
       <div className='tool-bar'>
-        <div className='tool-bar-filter'>
-          <Input
-            value={filterText}
-            onChange={e => handleFilterTextChange(e.target.value)}
-            placeholder='filter text...'
-          />
-        </div>
         <div className='tool-bar-filter-own'>
           <Checkbox
             onChange={e => handleFilterOwnChange(e.target.checked)}
@@ -20,6 +13,13 @@ class Toolbar extends Component {
           >
             Show Own
           </Checkbox>
+        </div>
+        <div className='tool-bar-filter'>
+          <Input
+            value={filterText}
+            onChange={e => handleFilterTextChange(e.target.value)}
+            placeholder='filter text...'
+          />
         </div>
       </div>
     )
