@@ -1,6 +1,6 @@
 const layoutHeaderHeight = 64
 const layoutContainerPaddingTop = 20
-const toolbarHeight = 30
+const toolbarHeight = 32
 const toolbarMarginBottom = 20
 const lanePaddingTop = 12
 const laneTitleHeight = 28

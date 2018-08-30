@@ -56,7 +56,7 @@ class Kanban {
     runInAction(() => {
       this.tasksMap[laneId].push({
         ...newTask,
-        userName: globalStore.name
+        userName: globalStore.userName
       })
     })
   }

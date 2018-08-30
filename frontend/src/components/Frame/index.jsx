@@ -11,19 +11,19 @@ const { Header, Sider, Content } = Layout
 @observer
 export default class Frame extends React.Component {
   componentDidMount() {
-    const { getUserInfo, name } = this.props.globalStore
-    if (!name) {
+    const { getUserInfo, userName } = this.props.globalStore
+    if (!userName) {
       getUserInfo()
     }
   }
   render() {
-    const { name, logout } = this.props.globalStore
+    const { userName, logout } = this.props.globalStore
     const { pathname } = this.props.location
     return (
       <Layout className='layout'>
         <Header className='layout-header'>
           {/* Header */}
-          <AvatarBtn name={name} logout={logout} />
+          <AvatarBtn name={userName} logout={logout} />
         </Header>
         <Layout className='layout-container'>
           <Sider className='layout-sider'><SideBar pathname={pathname} /></Sider>

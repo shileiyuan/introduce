@@ -7,17 +7,34 @@ import Lane from './Lane'
 import Toolbar from './Toolbar'
 
 @DragDropContext(HTML5Backend)
-@inject('kanbanStore')
+@inject('kanbanStore', 'globalStore')
 @observer
 export default class Kanban extends React.Component {
+  state = {
+    filterText: '',
+    filterOwn: false
+  }
+  handleFilterTextChange = filterText => {
+    this.setState({ filterText })
+  }
+  handleFilterOwnChange = filterOwn => {
+    this.setState({ filterOwn })
+  }
   componentDidMount() {
     this.props.kanbanStore.queryList()
   }
   render() {
+    const { userId } = this.props.globalStore
     const { lanes, tasksMap, moveTask, addTask, deleteTask } = this.props.kanbanStore
+    const { filterText, filterOwn } = this.state
     return (
       <div className='kanban'>
-        <Toolbar />
+        <Toolbar
+          handleFilterTextChange={this.handleFilterTextChange}
+          filterText={filterText}
+          handleFilterOwnChange={this.handleFilterOwnChange}
+          filterOwn={filterOwn}
+        />
         <div className='lane-container'>
           {
             lanes.map(lane => {
@@ -30,6 +47,9 @@ export default class Kanban extends React.Component {
                   moveTask={moveTask}
                   addTask={addTask}
                   deleteTask={deleteTask}
+                  filterText={filterText}
+                  filterOwn={filterOwn}
+                  userId={userId}
                 />
               )
             })

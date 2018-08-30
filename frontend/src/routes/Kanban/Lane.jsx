@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { Input, Button } from 'antd'
-import { observer, inject } from 'mobx-react'
+import { observer } from 'mobx-react'
 import DetailModal from './DetailModal'
 import LaneBody from './LaneBody'
 
 const { TextArea } = Input
 
-@inject('globalStore')
 @observer
 class Lane extends Component {
   state = {
@@ -48,11 +47,17 @@ class Lane extends Component {
     const { lane } = this.props
     this.props.addTask({
       title,
-      laneId: lane.id,
-      userId: this.props.globalStore.userId
+      laneId: lane.id
     }).then(() => {
       this.setState({ title: '' })
     })
+  }
+  handleKeyPress = e => {
+    if (e.key === 'Enter' && e.shiftKey === true) {
+      e.preventDefault()
+      this.handleTextAreaOK()
+      this.handleTextAreaCancel()
+    }
   }
 
   handleTitleChagne = e => {
@@ -64,7 +69,7 @@ class Lane extends Component {
     if (textAreaVisible) {
       return (
         <div className='lane-footer'>
-          <TextArea autosize value={title} onChange={this.handleTitleChagne} />
+          <TextArea autosize value={title} onChange={this.handleTitleChagne} onKeyPress={this.handleKeyPress} />
           <div className='lane-footer-buttons'>
             <Button onClick={this.handleTextAreaCancel}>Cancel</Button>
             <Button type='primary' onClick={this.handleTextAreaOK}>OK</Button>
@@ -82,11 +87,20 @@ class Lane extends Component {
 
   render() {
     const { modalVisible, currentTask } = this.state
-    const { lane, tasks, moveTask, deleteTask } = this.props
+    const { lane, tasks, moveTask, deleteTask, filterText, filterOwn, userId } = this.props
     return (
       <div className='lane'>
         <h3 className='lane-title'>{lane.title}</h3>
-        <LaneBody tasks={tasks} laneId={lane.id} moveTask={moveTask} onTaskClick={this.openModal} deleteTask={deleteTask} />
+        <LaneBody
+          tasks={tasks}
+          laneId={lane.id}
+          moveTask={moveTask}
+          onTaskClick={this.openModal}
+          deleteTask={deleteTask}
+          filterText={filterText}
+          filterOwn={filterOwn}
+          userId={userId}
+        />
         {this.renderFooter()}
         <DetailModal visible={modalVisible} task={currentTask} onCancel={this.closeModal} />
       </div>

@@ -5,7 +5,7 @@ import request from '../utils/request'
 
 class Global {
   @observable isAuthed = Boolean(localStorage.getItem(CONFIG.AUTH_TOKEN_STORAGE_KEY))
-  @observable name = ''
+  @observable userName = ''
   @observable userId = ''
 
   @action login = async ({ name, password }) => {
@@ -13,7 +13,7 @@ class Global {
     if (response.success) {
       runInAction(() => {
         this.isAuthed = true
-        this.name = response.data.name
+        this.userName = response.data.name
         this.userId = response.data.id
         localStorage.setItem(CONFIG.AUTH_TOKEN_STORAGE_KEY, response.data.token)
       })
@@ -31,7 +31,7 @@ class Global {
     const response = await request.get(API.get_user_info)
     if (response.success) {
       this.isAuthed = true
-      this.name = response.data.name
+      this.userName = response.data.name
       this.userId = response.data.id
     } else {
       this.logout()

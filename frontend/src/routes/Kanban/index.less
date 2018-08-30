@@ -3,8 +3,15 @@
   .tool-bar {
     height: @toolbarHeight;
     line-height: @toolbarHeight;
-    margin-bottom: @toolbarMarginBottom;
-    margin-left: @toolbarMarginBottom;
+    margin: 0 50px @toolbarMarginBottom @toolbarMarginBottom;
+    overflow: hidden;
+    &-filter {
+      float: left;
+    }
+    &-filter-own {
+      float: left;
+      margin-left: 10px;
+    }
   }
   .lane-container {
     font-size: 16px;
