@@ -82,11 +82,11 @@ class Lane extends Component {
 
   render() {
     const { modalVisible, currentTask } = this.state
-    const { lane, tasks, moveTask } = this.props
+    const { lane, tasks, moveTask, deleteTask } = this.props
     return (
       <div className='lane'>
         <h3 className='lane-title'>{lane.title}</h3>
-        <LaneBody tasks={tasks} laneId={lane.id} moveTask={moveTask} onTaskClick={this.openModal} />
+        <LaneBody tasks={tasks} laneId={lane.id} moveTask={moveTask} onTaskClick={this.openModal} deleteTask={deleteTask} />
         {this.renderFooter()}
         <DetailModal visible={modalVisible} task={currentTask} onCancel={this.closeModal} />
       </div>

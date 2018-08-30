@@ -60,6 +60,15 @@ class Kanban {
       })
     })
   }
+
+  @action deleteTask = async (id, laneId, index) => {
+    const response = await request.post(API.kanban_deleteTask, { id })
+    if (response.success) {
+      runInAction(() => {
+        this.tasksMap[laneId].splice(index, 1)
+      })
+    }
+  }
 }
 
 export default new Kanban()

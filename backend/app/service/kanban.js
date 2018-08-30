@@ -50,6 +50,10 @@ class KanbanService extends Service {
     const task = await Task.create({ laneId, userId, title, order: maxOrder + 1 })
     return task
   }
+
+  async deleteTask(id) {
+    await this.ctx.model.Task.destroy({ where: { id } })
+  }
 }
 
 module.exports = KanbanService

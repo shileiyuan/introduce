@@ -7,7 +7,8 @@ const API = {
   // kanban
   query_kanban_list: '/kanban/list',
   kanban_moveTask: 'kanban/moveTask',
-  kanban_addTask: 'kanban/addTask'
+  kanban_addTask: 'kanban/addTask',
+  kanban_deleteTask: 'kanban/deleteTask',
 }
 
 export default API

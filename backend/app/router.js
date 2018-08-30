@@ -11,4 +11,5 @@ module.exports = app => {
   router.get('/kanban/list', auth, controller.kanban.list)
   router.post('/kanban/moveTask', auth, controller.kanban.moveTask)
   router.post('/kanban/addTask', auth, controller.kanban.addTask)
+  router.post('/kanban/deleteTask', auth, controller.kanban.deleteTask)
 }

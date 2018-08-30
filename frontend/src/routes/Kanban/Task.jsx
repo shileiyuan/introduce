@@ -21,14 +21,14 @@ const collect = (connect, monitor) => ({
 @DragSource(CONFIG.DND_TYPES.TASK, source, collect)
 class Task extends Component {
   render() {
-    const { task, index, connectDragSource, onClick } = this.props
-    const { title, userName, id } = task
+    const { task, index, connectDragSource, onClick, deleteTask } = this.props
+    const { title, userName, id, laneId } = task
     return (
       connectDragSource(
         <div className='task' id={id} task={task}>
           <div className='task-header'>
             <div className='order'>{index + 1}</div>
-            <div className='delete'><Icon type='close' /></div>
+            <div className='delete' onClick={() => deleteTask(id, laneId, index)}><Icon type='close' /></div>
             <div className='avatar'>{userName}</div>
           </div>
           <div className='task-title' onClick={() => onClick(task)}>{title}</div>

@@ -27,6 +27,14 @@ class KanbanCtrl extends Controller {
       }
     }
   }
+
+  async deleteTask() {
+    const { id } = this.ctx.request.body
+    await this.ctx.service.kanban.deleteTask(id)
+    this.ctx.body = {
+      success: true
+    }
+  }
 }
 
 module.exports = KanbanCtrl
