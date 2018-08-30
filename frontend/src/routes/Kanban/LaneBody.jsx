@@ -5,15 +5,15 @@ import { DropTarget } from 'react-dnd'
 import CONFIG from '../../utils/config'
 import Task from './Task'
 
-const { OFFSET_HEIGHT, CARD_HEIGHT, CARD_MARGIN } = CONFIG
+const { OFFSET_HEIGHT, TASK_HEIGHT, TASK_MARGIN } = CONFIG
 function getPlaceholderIndex(y, scrollY) {
   // shift placeholder if y position more than card height / 2
   const yPos = y - OFFSET_HEIGHT + scrollY
   let placeholderIndex
-  if (yPos < CARD_HEIGHT / 2) {
+  if (yPos < TASK_HEIGHT / 2) {
     placeholderIndex = 0 // place at the start
   } else {
-    placeholderIndex = Math.ceil((yPos - CARD_HEIGHT / 2) / (CARD_HEIGHT + CARD_MARGIN))
+    placeholderIndex = Math.ceil((yPos - TASK_HEIGHT / 2) / (TASK_HEIGHT + TASK_MARGIN))
   }
   return placeholderIndex
 }
@@ -57,7 +57,6 @@ class LaneBody extends Component {
     const placeholder = <div key='placeholder' className='task placeholder' />
     const taskList = []
     let isPlaceHold = false
-    // console.log(placeholderIndex)
     tasks.forEach((task, i) => {
       if (isOver) {
         isPlaceHold = false

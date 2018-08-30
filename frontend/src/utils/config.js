@@ -13,6 +13,6 @@ export default {
   },
   PLACE_HOLDER_ID: 'placeholder-task-id',
   OFFSET_HEIGHT: layoutHeaderHeight + layoutContainerPaddingTop + toolbarHeight + toolbarMarginBottom + lanePaddingTop + laneTitleHeight,
-  CARD_HEIGHT: 71,
-  CARD_MARGIN: 5
+  TASK_HEIGHT: 89,
+  TASK_MARGIN: 5
 }

@@ -54,16 +54,30 @@
         padding: 5px;
         border-bottom: 1px solid black;
         overflow: hidden;
+        font-size: 12px;
         .order {
           float: left;
         }
         .avatar {
           float: right;
-          font-size: 12px;
+          margin-right: 10px;
+        }
+        .delete {
+          float: right;
+          cursor: pointer;
+          &:hover {
+            color: red;
+          }
         }
       }
       &-title {
         padding: 5px;
+        height: 58px;
+        word-wrap: break-word;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
       }
       .arrow {
         text-align: center;
