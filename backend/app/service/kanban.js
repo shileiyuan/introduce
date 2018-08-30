@@ -43,6 +43,13 @@ class KanbanService extends Service {
 
     return { rows }
   }
+
+  async addTask({ laneId, userId, title }) {
+    const { Task } = this.ctx.model
+    const maxOrder = await Task.max('order', { where: { laneId } })
+    const task = await Task.create({ laneId, userId, title, order: maxOrder + 1 })
+    return task
+  }
 }
 
 module.exports = KanbanService

@@ -1,3 +1,10 @@
+const layoutHeaderHeight = 64
+const layoutContainerPaddingTop = 20
+const toolbarHeight = 30
+const toolbarMarginBottom = 20
+const lanePaddingTop = 12
+const laneTitleHeight = 28
+
 export default {
   AUTH_TOKEN_STORAGE_KEY: 'introduce-token',
   AUTH_TOKEN_HEADER: 'x-auth-token',
@@ -5,7 +12,7 @@ export default {
     TASK: 'task'
   },
   PLACE_HOLDER_ID: 'placeholder-task-id',
-  OFFSET_HEIGHT: 64 + 40 + 38,
-  CARD_HEIGHT: 95,
+  OFFSET_HEIGHT: layoutHeaderHeight + layoutContainerPaddingTop + toolbarHeight + toolbarMarginBottom + lanePaddingTop + laneTitleHeight,
+  CARD_HEIGHT: 71,
   CARD_MARGIN: 5
 }

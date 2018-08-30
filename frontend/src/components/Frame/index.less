@@ -1,3 +1,5 @@
+@import '../../../assets/styles/vars.less';
+
 .layout {
   &-header {
     background: #FFF;
@@ -19,16 +21,13 @@
     }
   }
   &-container {
-    padding-top: 40px;
+    padding-top: @layoutContainerPaddingTop;
     background: #FFF;
   }
   &-sider {
     background: #FFF;
   }
   &-content {
-    // padding-left: 64px;
-    min-height: 500px;
-    max-height: ~'calc(100vh - 104px)';
-    border: 1px solid black;
+    height: ~'calc(100vh - 110px)';
   }
 }

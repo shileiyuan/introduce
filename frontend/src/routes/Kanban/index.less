@@ -1,66 +1,79 @@
+@import '../../../assets/styles/vars.less';
 .kanban {
-  font-size: 16px;
-  @lane-width: 100px;
-  height: 100%;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-around;
-  min-width: @lane-width * 3 + 100px;
-
-  .lane {
-    background-color: #e2ffa8;
-    user-select: none;
-    width: @lane-width;
-    &-title {
-      text-align: center;
-      height: 28px;
-      margin-bottom: 10px;
-    }
-    &-body {
-      height: ~'calc(100% - 38px)';
-    }
+  .tool-bar {
+    height: @toolbarHeight;
+    line-height: @toolbarHeight;
+    margin-bottom: @toolbarMarginBottom;
+    margin-left: @toolbarMarginBottom;
   }
-  .task {
-    &.placeholder {
-      background: #ccc;
-      height: 95px;
+  .lane-container {
+    font-size: 16px;
+    @lane-width: 200px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    min-width: @lane-width * 3 + 100px;
+    .lane {
+      height: auto;
+      background-color: #EEEEEE;
+      user-select: none;
+      width: @lane-width;
+      padding: @lanePaddingTop;
+      &-title {
+        height: @laneTitleHeight;
+        text-align: center;
+        margin-bottom: 0;
+      }
+      &-body {
+        margin-top: 5px;
+        min-height: 71px;
+      }
+      &-footer {
+        text-align: center;
+        margin-top: 10px;
+        &-buttons {
+          margin-top: 5px;
+          text-align: left;
+          button:last-child {
+            margin-left: 5px;
+          }
+        }
+      }
+    }
+    .task {
       margin-top: 5px;
-    }
-    &.is-over {
-      border: 1px solid red;
-    }
-    &.is-dragging {
-      background-color: #ccc;
-    }
-    margin-top: 5px;
-    // padding: 5px;
-    background: #fff;
-    border: 1px solid black;
-    &-header {
-      padding: 5px;
-      border-bottom: 1px solid black;
-      overflow: hidden;
-      .order {
-        float: left;
-      }
-      .avatar {
-        float: right;
-        font-size: 12px;
-        color: #ffbf00;
-      }
-    }
-    &-title {
-      padding: 5px;
-    }
-    &-content {
+      background: #fff;
+      border: 1px solid black;
 
-    }
-    .arrow {
-      text-align: center;
-      i {
-        font-size: 12px;
-        cursor: pointer;
+      &.placeholder {
+        background: #ccc;
+        height: 71px;
+      }
+      &-header {
+        padding: 5px;
+        border-bottom: 1px solid black;
+        overflow: hidden;
+        .order {
+          float: left;
+        }
+        .avatar {
+          float: right;
+          font-size: 12px;
+        }
+      }
+      &-title {
+        padding: 5px;
+      }
+      .arrow {
+        text-align: center;
+        i {
+          font-size: 12px;
+          cursor: pointer;
+        }
       }
     }
   }
+
+
 }

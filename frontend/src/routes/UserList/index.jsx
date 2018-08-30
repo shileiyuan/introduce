@@ -11,7 +11,8 @@ const PAGE_SIZE = 3
 class UserList extends Component {
   state = {
     current: 1,
-    pageSize: PAGE_SIZE
+    pageSize: PAGE_SIZE,
+    visible: false
   }
   componentDidMount() {
     this.props.userListStore.queryUserList()

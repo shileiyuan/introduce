@@ -16,6 +16,17 @@ class KanbanCtrl extends Controller {
       data
     }
   }
+
+  async addTask() {
+    const task = this.ctx.request.body
+    const newTask = await this.ctx.service.kanban.addTask(task)
+    this.ctx.body = {
+      success: true,
+      data: {
+        task: newTask
+      }
+    }
+  }
 }
 
 module.exports = KanbanCtrl

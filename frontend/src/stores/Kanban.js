@@ -1,6 +1,7 @@
 import { observable, action, runInAction, extendObservable } from 'mobx'
 import request from '../utils/request'
 import API from '../utils/API'
+import globalStore from './Global'
 
 class Kanban {
   @observable lanes = []
@@ -34,7 +35,6 @@ class Kanban {
   @action getLane = laneId => this.tasksMap[laneId] || []
 
   @action moveTask = (task, fromLaneId, fromIndex, toLaneId, toIndex) => {
-    console.log(fromIndex, toIndex)
     const fromLane = this.getLane(fromLaneId)
     const toLane = this.getLane(toLaneId)
     fromLane.splice(fromIndex, 1)
@@ -47,6 +47,17 @@ class Kanban {
       taskIds,
       taskId: task.id,
       laneId: toLaneId
+    })
+  }
+
+  @action addTask = async ({ laneId, title }) => {
+    const response = await request.post(API.kanban_addTask, { laneId, title, userId: globalStore.userId })
+    const newTask = response.data.task
+    runInAction(() => {
+      this.tasksMap[laneId].push({
+        ...newTask,
+        userName: globalStore.name
+      })
     })
   }
 }

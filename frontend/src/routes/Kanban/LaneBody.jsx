@@ -53,10 +53,11 @@ class LaneBody extends Component {
   }
   render() {
     const { placeholderIndex } = this.state
-    const { tasks, connectDropTarget, isOver } = this.props
+    const { tasks, connectDropTarget, isOver, onTaskClick } = this.props
     const placeholder = <div key='placeholder' className='task placeholder' />
     const taskList = []
     let isPlaceHold = false
+    // console.log(placeholderIndex)
     tasks.forEach((task, i) => {
       if (isOver) {
         isPlaceHold = false
@@ -67,7 +68,7 @@ class LaneBody extends Component {
         }
       }
 
-      taskList.push(<Task key={task.id} task={task} index={i} />)
+      taskList.push(<Task key={task.id} task={task} index={i} onClick={onTaskClick} />)
     })
 
     if (isOver && (isPlaceHold || tasks.length === 0)) {
