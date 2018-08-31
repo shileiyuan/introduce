@@ -3,6 +3,7 @@
 1. 登录：后端通过jwt返回一个token给前端，前端每次请求都带上该token，并控制路由跳转
 2. kanban
 3. markdown笔记本
+4. tetris
 
 
 ### Doing

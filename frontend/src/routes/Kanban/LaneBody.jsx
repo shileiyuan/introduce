@@ -5,7 +5,7 @@ import { DropTarget } from 'react-dnd'
 import CONFIG from '../../utils/config'
 import DraggableTask from './DraggableTask'
 
-const { OFFSET_HEIGHT, TASK_HEIGHT, TASK_MARGIN } = CONFIG
+const { OFFSET_HEIGHT, TASK_HEIGHT, TASK_MARGIN, DND_TYPES: { TASK } } = CONFIG
 function getPlaceholderIndex(y, scrollY) {
   // shift placeholder if y position more than card height / 2
   const yPos = y - OFFSET_HEIGHT + scrollY
@@ -45,7 +45,7 @@ const collect = (connect, monitor) => ({
   isOver: monitor.isOver()
 })
 
-@DropTarget(CONFIG.DND_TYPES.TASK, target, collect)
+@DropTarget(TASK, target, collect)
 @observer
 class LaneBody extends Component {
   state = {

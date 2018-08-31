@@ -7,6 +7,7 @@ import {
 import Frame from '../components/Frame'
 import UserList from './UserList'
 import Kanban from './Kanban'
+import Tetris from './Tetris'
 
 class Home extends Component {
   render() {
@@ -15,6 +16,7 @@ class Home extends Component {
         <Switch>
           <Route path='/UserList' component={UserList} />
           <Route path='/Kanban' component={Kanban} />
+          <Route path='/Tetris' component={Tetris} />
           <Redirect path='/Home' to='/UserList' />
         </Switch>
       </Frame>

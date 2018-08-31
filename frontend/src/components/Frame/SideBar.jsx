@@ -9,6 +9,7 @@ export default class SideBar extends React.Component {
       <Menu selectedKeys={[this.props.pathname]} className='side-bar'>
         <Item key='/UserList'><Link to='/UserList'>UserList</Link></Item>
         <Item key='/Kanban'><Link to='/Kanban'>Kanban</Link></Item>
+        <Item key='/Tetris'><Link to='/Tetris'>Tetris</Link></Item>
       </Menu>
     )
   }
