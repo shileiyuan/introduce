@@ -12,13 +12,17 @@ class InfoBoard extends Component {
       return 'Start'
     } else if (status === STATUS.playing) {
       return 'Pause'
+    } else if (status === STATUS.over) {
+      return 'Restart'
     }
   }
   render() {
     const { nextGraph, status, score, lines, toggleStatus } = this.props
     return (
       <div className='info-board'>
-        <Button onClick={toggleStatus} disabled={status === STATUS.over}>{this.getStatusText(status)}</Button>
+        <div className='control-btn-wrapper'>
+          <Button onClick={toggleStatus}>{this.getStatusText(status)}</Button>
+        </div>
         <h2>Next Shape</h2>
         <Stage width={200} height={100}>
           <Layer>

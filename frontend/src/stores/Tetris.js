@@ -1,7 +1,9 @@
 import { observable, action } from 'mobx'
 import { getInitialMatrix, getRandomGraph, checkCollisions, getCompletedLines, getNewMatrix, rotate, STATUS } from '../utils/tetris'
-
+let i = 0
 class Tetris {
+  loaded = false
+  animateId = null
   @observable matrix = getInitialMatrix()
   @observable status = STATUS.paused
   @observable score = 0
@@ -21,44 +23,69 @@ class Tetris {
     offsetY: 0
   }
 
-  @action loadGame = () => {
+  @action initData = () => {
     this.matrix = getInitialMatrix()
     this.currentGraph = getRandomGraph({ offsetX: 3, offsetY: 0 })
     this.nextGraph = getRandomGraph({ offsetX: 1.5, offsetY: 0 })
-    const handleKeydown = e => {
-      switch (e.keyCode) {
-        case 37:
-          e.preventDefault()
-          this.moveGraph('left')
-          break
-        case 38: {
-          e.preventDefault()
-          this.rotateGraph()
-          break
-        }
-        case 39:
-          e.preventDefault()
-          this.moveGraph('right')
-          break
-        case 40:
-          e.preventDefault()
-          this.moveGraph('down')
-          break
-        default:
-          break
-      }
-    }
-    window.addEventListener('keydown', handleKeydown)
+  }
 
-    const load = startTime => {
-      const currentTime = Date.now()
-      if (currentTime - startTime >= 500 && this.status === STATUS.playing) {
-        startTime = currentTime
-        this.moveGraph('down')
+  handleKeydown = e => {
+    switch (e.keyCode) {
+      case 37:
+        e.preventDefault()
+        this.moveGraph('left')
+        break
+      case 38: {
+        e.preventDefault()
+        this.rotateGraph()
+        break
       }
-      requestAnimationFrame(() => load(startTime))
+      case 39:
+        e.preventDefault()
+        this.moveGraph('right')
+        break
+      case 40:
+        e.preventDefault()
+        this.moveGraph('down')
+        break
+      default:
+        break
     }
-    load(Date.now())
+  }
+
+  load = () => {
+    this.initData()
+    this.startAnimate(Date.now())
+    window.addEventListener('keydown', this.handleKeydown)
+  }
+
+  startAnimate = startTime => {
+    console.log(i++)
+    const currentTime = Date.now()
+    if (currentTime - startTime >= 500 && this.status === STATUS.playing) {
+      startTime = currentTime
+      this.moveGraph('down')
+    }
+    this.animateId = window.requestAnimationFrame(() => this.startAnimate(startTime))
+  }
+
+  @action toggleStatus = () => {
+    if (!this.loaded) {
+      this.status = STATUS.playing
+      this.load()
+      this.loaded = true
+    } else {
+      if (this.status === STATUS.paused) {
+        this.status = STATUS.playing
+        this.startAnimate(Date.now())
+      } else if (this.status === STATUS.playing) {
+        this.status = STATUS.paused
+        window.cancelAnimationFrame(this.animateId)
+      } else if (this.status === STATUS.over) {
+        this.status = STATUS.playing
+        this.load()
+      }
+    }
   }
 
   @action moveGraph = direction => {
@@ -82,6 +109,8 @@ class Tetris {
           this.currentGraph.offsetY++
         } else if (collisionCheck === 'GAME_OVER') {
           this.status = STATUS.over
+          window.removeEventListener('keydown', this.handleKeydown)
+          window.cancelAnimationFrame(this.animateId)
         } else {
           const lines = getCompletedLines(this.matrix, this.currentGraph).length
           this.addScore(lines)
@@ -115,14 +144,6 @@ class Tetris {
     })
     if (collision === false && this.status === STATUS.playing) {
       this.currentGraph.graph = rotatedGraph
-    }
-  }
-
-  @action toggleStatus = () => {
-    if (this.status === STATUS.paused) {
-      this.status = STATUS.playing
-    } else if (this.status === STATUS.playing) {
-      this.status = STATUS.paused
     }
   }
 }
