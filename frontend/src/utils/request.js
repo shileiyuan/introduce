@@ -1,6 +1,7 @@
 import axios from 'axios'
 import CONFIG from '../utils/config'
 import globalStore from '../stores/Global'
+import Cookie from 'js-cookie'
 
 function catchError(error) {
   const { response } = error
@@ -15,6 +16,7 @@ function configRequest(config) {
   if (config.url !== '/login' && token) {
     config.headers[CONFIG.AUTH_TOKEN_HEADER] = token
   }
+  config.headers['x-csrf-token'] = Cookie.get('csrfToken')
   return config
 }
 

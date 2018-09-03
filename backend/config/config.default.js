@@ -19,9 +19,9 @@ module.exports = appInfo => {
         acquire: 60000,
       },
     },
-    security: {
-      csrf: false
-    },
+    // security: {
+    //   csrf: false
+    // },
     middleware: [
       // 'auth'
     ],
@@ -31,6 +31,9 @@ module.exports = appInfo => {
         expiresIn: '10h'
       },
       header: 'x-auth-token'
+    },
+    session: {
+      maxAge: 3600 * 1000,
     },
   }
 }

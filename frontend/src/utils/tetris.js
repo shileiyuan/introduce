@@ -117,7 +117,7 @@ export function getCompletedLines(matrix, currentGraph) {
   const linesToClear = []
   const coords = getActualCoordinates(currentGraph)
   // 获取一个matrix的拷贝，这个matrix的graph的颜色用temp填充
-  // const matrixCopy = getMatrixCopy(matrix, coords, 'temp')
+  const matrixCopy = getMatrixCopy(matrix, coords, 'temp')
   // 将当前graph的纵坐标去重
   const rowSet = new Set()
   coords.forEach(coord => {
@@ -128,7 +128,7 @@ export function getCompletedLines(matrix, currentGraph) {
   for (let i = 0; i < rows.length; i++) {
     let flag = true
     for (let j = 0; j < 10; j++) {
-      if (matrix[rows[i]][j] === BGCOLOR) {
+      if (matrixCopy[rows[i]][j] === BGCOLOR) {
         flag = false
       }
     }

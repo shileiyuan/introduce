@@ -27,7 +27,6 @@ class Global {
   }
 
   @action getUserInfo = async () => {
-    console.log('getUserInfo')
     const response = await request.get(API.get_user_info)
     runInAction(() => {
       if (response.success) {
