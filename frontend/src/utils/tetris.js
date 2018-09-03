@@ -1,12 +1,4 @@
 export const BGCOLOR = '#cccccc'
-
-// 15*25   22行，10列
-// export const initialMatrix = new Array(15);
-
-// for (let i = 0; i < 15; i++) {
-//   initialMatrix[i] = new Array(25).fill(BGCOLOR);
-// }
-
 export const BLOCK_UNIT = 30
 export const BOARD_WIDTH = 30 * 10
 export const BOARD_HEIGHT = 30 * 22
@@ -73,6 +65,7 @@ function occupied(matrix, i, j) {
 }
 
 export function getInitialMatrix() {
+  // 22行10列
   const initialMatrix = new Array(22)
   for (let i = 0; i < 22; i++) {
     initialMatrix[i] = new Array(10).fill(BGCOLOR)
@@ -80,9 +73,8 @@ export function getInitialMatrix() {
   return initialMatrix
 }
 
-export function getActualCoordinates(newGraph) {
+export function getActualCoordinates({ graph, offsetX, offsetY }) {
   const coordinates = []
-  const { graph, offsetX, offsetY } = newGraph
   for (let i = 0; i < graph.length; i++) {
     for (let j = 0; j < graph[i].length; j++) {
       if (graph[i][j]) {
@@ -94,7 +86,7 @@ export function getActualCoordinates(newGraph) {
 }
 
 function getMatrixCopy(matrix, coords, color) {
-  const matrixCopy = matrix.map((x) => [...x])
+  const matrixCopy = matrix.map((row) => [...row])
   for (let i = 0; i < coords.length; i++) {
     const { x, y } = coords[i]
     matrixCopy[y][x] = color
@@ -106,13 +98,15 @@ function getMatrixCopy(matrix, coords, color) {
 export function getNewMatrix(matrix, currentGraph, lines) {
   const coords = getActualCoordinates(currentGraph)
   const matrixCopy = getMatrixCopy(matrix, coords, currentGraph.color)
-  lines = typeof lines === 'number' ? lines : getCompletedLines(matrix, currentGraph)
+  // lines是从小到大排列的要删除的行
+  lines = Array.isArray(lines) ? lines : getCompletedLines(matrix, currentGraph)
   lines.forEach(line => {
     for (let j = 0; j < 10; j++) {
       matrixCopy[line][j] = BGCOLOR
     }
   })
   const step = lines.length
+  // 取要删除的行里行号最小的那一行的的行号，至第一行，全部向下移动step行
   for (let row = lines[0] - 1; row >= 0; row--) {
     matrixCopy[row + step] = matrix[row]
   }
@@ -122,16 +116,19 @@ export function getNewMatrix(matrix, currentGraph, lines) {
 export function getCompletedLines(matrix, currentGraph) {
   const linesToClear = []
   const coords = getActualCoordinates(currentGraph)
-  const matrixCopy = getMatrixCopy(matrix, coords, 'temp')
+  // 获取一个matrix的拷贝，这个matrix的graph的颜色用temp填充
+  // const matrixCopy = getMatrixCopy(matrix, coords, 'temp')
+  // 将当前graph的纵坐标去重
   const rowSet = new Set()
   coords.forEach(coord => {
     rowSet.add(coord.y)
   })
   const rows = [...rowSet]
+  // 遍历matrix，如果其中有一个小的像素是BGCOLOR，那么这个像素所在的行就不应该被消除，否则就要消除这一行
   for (let i = 0; i < rows.length; i++) {
     let flag = true
     for (let j = 0; j < 10; j++) {
-      if (matrixCopy[rows[i]][j] === BGCOLOR) {
+      if (matrix[rows[i]][j] === BGCOLOR) {
         flag = false
       }
     }
@@ -139,6 +136,7 @@ export function getCompletedLines(matrix, currentGraph) {
       linesToClear.push(rows[i])
     }
   }
+  // 返回的是要删除的行的行号
   return linesToClear
 }
 
@@ -166,7 +164,7 @@ export function checkCollisions(direction, matrix, currentGraph) {
       if (coord) {
         const totalX = nx + currentX + j
         const totalY = ny + currentY + i
-        if (totalX < 0 || totalY > 21 || totalX > 9 || occupied(matrix, totalY, totalX)) {
+        if (totalX < 0 || totalX > 9 || totalY > 21 || occupied(matrix, totalY, totalX)) {
           collision = true
         }
         if (collision && currentY === 0 && direction === 'down') {

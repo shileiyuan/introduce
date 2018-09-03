@@ -7,9 +7,6 @@ import InfoBoard from './InfoBoard'
 @inject('tetrisStore')
 @observer
 class Tetris extends Component {
-  componentDidMount() {
-    // this.props.tetrisStore.loadGame()
-  }
   render() {
     const { matrix, currentGraph, nextGraph, status, score, lines, toggleStatus } = this.props.tetrisStore
     return (

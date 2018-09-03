@@ -62,7 +62,7 @@ class Tetris {
   startAnimate = startTime => {
     console.log(i++)
     const currentTime = Date.now()
-    if (currentTime - startTime >= 500 && this.status === STATUS.playing) {
+    if (currentTime - startTime >= 400 && this.status === STATUS.playing) {
       startTime = currentTime
       this.moveGraph('down')
     }

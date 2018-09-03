@@ -9,6 +9,7 @@ class GameBoard extends Component {
   render() {
     const { matrix, currentGraph } = this.props
     const arr = []
+    // i指的是在第几行，也就是纵坐标
     matrix.forEach((val, i) => {
       val.forEach((color, j) => {
         if (color !== BGCOLOR) {
