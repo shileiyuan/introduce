@@ -7,6 +7,12 @@ import InfoBoard from './InfoBoard'
 @inject('tetrisStore')
 @observer
 class Tetris extends Component {
+  componentWillUnmount() {
+    this.props.tetrisStore.unmount()
+  }
+  componentDidMount() {
+    this.props.tetrisStore.addListener()
+  }
   render() {
     const { matrix, currentGraph, nextGraph, status, score, lines, toggleStatus } = this.props.tetrisStore
     return (

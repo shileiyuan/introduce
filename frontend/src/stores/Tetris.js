@@ -1,9 +1,19 @@
 import { observable, action } from 'mobx'
-import { getInitialMatrix, getRandomGraph, checkCollisions, getCompletedLines, getNewMatrix, rotate, STATUS } from '../utils/tetris'
-let i = 0
+import {
+  getInitialMatrix,
+  getRandomGraph,
+  checkCollisions,
+  getCompletedLines,
+  getNewMatrix,
+  rotate,
+  STATUS
+} from '../utils/tetris'
+// let i = 0
 class Tetris {
   loaded = false
+  mounted = false
   animateId = null
+  startMoveStraightDown = false
   @observable matrix = getInitialMatrix()
   @observable status = STATUS.paused
   @observable score = 0
@@ -31,59 +41,95 @@ class Tetris {
 
   handleKeydown = e => {
     switch (e.keyCode) {
-      case 37:
+      case 65:
         e.preventDefault()
         this.moveGraph('left')
         break
-      case 38: {
+      case 74: {
         e.preventDefault()
         this.rotateGraph()
         break
       }
-      case 39:
+      case 68:
         e.preventDefault()
         this.moveGraph('right')
         break
-      case 40:
+      case 83:
         e.preventDefault()
         this.moveGraph('down')
+        break
+      case 75:
+        e.preventDefault()
+        this.startMoveStraightDown = true
+        this.moveStraightDown()
+        break
+      case 80:
+        e.preventDefault()
+        this.toggleStatus()
         break
       default:
         break
     }
   }
-
-  load = () => {
-    this.initData()
-    this.startAnimate(Date.now())
-    window.addEventListener('keydown', this.handleKeydown)
+  moveStraightDown = () => {
+    if (!this.startMoveStraightDown) return
+    this.moveGraph('down')
+    setTimeout(() => {
+      this.moveStraightDown()
+    }, 10)
   }
 
   startAnimate = startTime => {
-    console.log(i++)
     const currentTime = Date.now()
-    if (currentTime - startTime >= 400 && this.status === STATUS.playing) {
+    if (currentTime - startTime >= 600 && this.status === STATUS.playing) {
+      // console.log(i++)
       startTime = currentTime
       this.moveGraph('down')
     }
     this.animateId = window.requestAnimationFrame(() => this.startAnimate(startTime))
   }
+  stopAnimate = () => {
+    window.cancelAnimationFrame(this.animateId)
+  }
+
+  addListener = () => {
+    window.addEventListener('keydown', this.handleKeydown)
+  }
+
+  removeListener = () => {
+    window.removeEventListener('keydown', this.handleKeydown)
+  }
+
+  @action unmount = () => {
+    this.stopAnimate()
+    this.removeListener()
+    this.mounted = false
+    this.status = STATUS.paused
+    this.startMoveStraightDown = false
+  }
 
   @action toggleStatus = () => {
     if (!this.loaded) {
-      this.status = STATUS.playing
-      this.load()
       this.loaded = true
+      this.mounted = true
+      this.status = STATUS.playing
+      this.initData()
+      this.startAnimate(Date.now())
+    } else if (!this.mounted) {
+      this.mounted = true
+      this.status = STATUS.playing
+      this.startAnimate(Date.now())
     } else {
       if (this.status === STATUS.paused) {
         this.status = STATUS.playing
         this.startAnimate(Date.now())
       } else if (this.status === STATUS.playing) {
         this.status = STATUS.paused
-        window.cancelAnimationFrame(this.animateId)
+        this.stopAnimate()
       } else if (this.status === STATUS.over) {
         this.status = STATUS.playing
-        this.load()
+        this.initData()
+        this.startAnimate(Date.now())
       }
     }
   }
@@ -108,13 +154,14 @@ class Tetris {
         if (collisionCheck === false) {
           this.currentGraph.offsetY++
         } else if (collisionCheck === 'GAME_OVER') {
+          this.startMoveStraightDown = false
           this.status = STATUS.over
-          window.removeEventListener('keydown', this.handleKeydown)
-          window.cancelAnimationFrame(this.animateId)
+          this.stopAnimate()
         } else {
           const lines = getCompletedLines(this.matrix, this.currentGraph).length
           this.addScore(lines)
           this.settleGraph(this.currentGraph, this.nextGraph, lines)
+          this.startMoveStraightDown = false
         }
         break
       }
