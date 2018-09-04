@@ -97,7 +97,7 @@ export function getMatrixCopy(matrix, coords, color) {
   return matrixCopy
 }
 
-// 方块下落的时候，生成一个新的matrix
+// 方块落到底的时候，生成一个新的matrix
 export function getNewMatrix(matrix, currentGraph, lines) {
   const coords = getActualCoordinates(currentGraph)
   const matrixCopy = getMatrixCopy(matrix, coords, currentGraph.color)

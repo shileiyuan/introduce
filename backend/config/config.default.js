@@ -19,9 +19,9 @@ module.exports = appInfo => {
         acquire: 60000,
       },
     },
-    // security: {
-    //   csrf: false
-    // },
+    security: {
+      csrf: false
+    },
     middleware: [
       // 'auth'
     ],

@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
 import marked from 'marked'
+import highlight from 'highlight.js'
 import './index.less'
+import 'highlight.js/styles/atom-one-dark.css'
+
+marked.setOptions({
+  // renderer: new marked.Renderer(),
+  highlight: function(code) {
+    return highlight.highlightAuto(code).value
+  },
+})
 
 class Note extends Component {
   state = {
@@ -13,9 +22,7 @@ class Note extends Component {
     this.update()
   }
   update = _.debounce(() => {
-    const html = marked(this.state.text, {
-      sanitize: true
-    })
+    const html = marked(this.state.text)
     this.setState({ html })
   }, 100)
   render() {

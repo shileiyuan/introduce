@@ -12,4 +12,9 @@ module.exports = app => {
   router.post('/kanban/moveTask', auth, controller.kanban.moveTask)
   router.post('/kanban/addTask', auth, controller.kanban.addTask)
   router.post('/kanban/deleteTask', auth, controller.kanban.deleteTask)
+
+  // note
+  router.get('/note/listNote', auth, controller.note.listNote)
+  router.get('/note/getBooks', auth, controller.note.getBooks)
+  router.get('/note/getNoteById', auth, controller.note.getNoteById)
 }
