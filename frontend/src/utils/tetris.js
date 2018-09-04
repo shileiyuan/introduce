@@ -1,7 +1,10 @@
+const ROW_NUM = 22
+const COL_NUM = 10
+
 export const BGCOLOR = '#cccccc'
 export const BLOCK_UNIT = 30
-export const BOARD_WIDTH = 30 * 10
-export const BOARD_HEIGHT = 30 * 22
+export const BOARD_WIDTH = 30 * COL_NUM
+export const BOARD_HEIGHT = 30 * ROW_NUM
 export const GRAPH_NAMES = ['straight', 'square', 'cross', 'leftGun', 'rightGun', 'leftSnake', 'rightSnake']
 export const GRAPHS = {
   straight: {
@@ -66,9 +69,9 @@ function occupied(matrix, i, j) {
 
 export function getInitialMatrix() {
   // 22行10列
-  const initialMatrix = new Array(22)
-  for (let i = 0; i < 22; i++) {
-    initialMatrix[i] = new Array(10).fill(BGCOLOR)
+  const initialMatrix = new Array(ROW_NUM)
+  for (let i = 0; i < ROW_NUM; i++) {
+    initialMatrix[i] = new Array(COL_NUM).fill(BGCOLOR)
   }
   return initialMatrix
 }
@@ -77,7 +80,7 @@ export function getActualCoordinates({ graph, offsetX, offsetY }) {
   const coordinates = []
   for (let i = 0; i < graph.length; i++) {
     for (let j = 0; j < graph[i].length; j++) {
-      if (graph[i][j]) {
+      if (graph[i][j] === 1) {
         coordinates.push({ x: j + offsetX, y: i + offsetY })
       }
     }
@@ -85,7 +88,7 @@ export function getActualCoordinates({ graph, offsetX, offsetY }) {
   return coordinates
 }
 
-function getMatrixCopy(matrix, coords, color) {
+export function getMatrixCopy(matrix, coords, color) {
   const matrixCopy = matrix.map((row) => [...row])
   for (let i = 0; i < coords.length; i++) {
     const { x, y } = coords[i]
@@ -101,7 +104,7 @@ export function getNewMatrix(matrix, currentGraph, lines) {
   // lines是从小到大排列的要删除的行
   lines = Array.isArray(lines) ? lines : getCompletedLines(matrix, currentGraph)
   lines.forEach(line => {
-    for (let j = 0; j < 10; j++) {
+    for (let j = 0; j < COL_NUM; j++) {
       matrixCopy[line][j] = BGCOLOR
     }
   })
@@ -127,7 +130,7 @@ export function getCompletedLines(matrix, currentGraph) {
   // 遍历matrix，如果其中有一个小的像素是BGCOLOR，那么这个像素所在的行就不应该被消除，否则就要消除这一行
   for (let i = 0; i < rows.length; i++) {
     let flag = true
-    for (let j = 0; j < 10; j++) {
+    for (let j = 0; j < COL_NUM; j++) {
       if (matrixCopy[rows[i]][j] === BGCOLOR) {
         flag = false
       }
@@ -164,7 +167,7 @@ export function checkCollisions(direction, matrix, currentGraph) {
       if (coord) {
         const totalX = nx + currentX + j
         const totalY = ny + currentY + i
-        if (totalX < 0 || totalX > 9 || totalY > 21 || occupied(matrix, totalY, totalX)) {
+        if (totalX < 0 || totalX > COL_NUM - 1 || totalY > ROW_NUM - 1 || occupied(matrix, totalY, totalX)) {
           collision = true
         }
         if (collision && currentY === 0 && direction === 'down') {

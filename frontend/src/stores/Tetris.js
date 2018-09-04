@@ -14,6 +14,7 @@ class Tetris {
   mounted = false
   animateId = null
   startMoveStraightDown = false
+  animateCtrl = true
   @observable matrix = getInitialMatrix()
   @observable status = STATUS.paused
   @observable score = 0
@@ -37,6 +38,8 @@ class Tetris {
     this.matrix = getInitialMatrix()
     this.currentGraph = getRandomGraph({ offsetX: 3, offsetY: 0 })
     this.nextGraph = getRandomGraph({ offsetX: 1.5, offsetY: 0 })
+    this.score = 0
+    this.lines = 0
   }
 
   handleKeydown = e => {
@@ -71,6 +74,7 @@ class Tetris {
         break
     }
   }
+
   moveStraightDown = () => {
     if (!this.startMoveStraightDown) return
     this.moveGraph('down')
@@ -81,13 +85,14 @@ class Tetris {
 
   startAnimate = startTime => {
     const currentTime = Date.now()
-    if (currentTime - startTime >= 600 && this.status === STATUS.playing) {
+    if (this.animateCtrl && currentTime - startTime >= 600 && this.status === STATUS.playing) {
       // console.log(i++)
       startTime = currentTime
       this.moveGraph('down')
     }
     this.animateId = window.requestAnimationFrame(() => this.startAnimate(startTime))
   }
+
   stopAnimate = () => {
     window.cancelAnimationFrame(this.animateId)
   }
@@ -158,14 +163,33 @@ class Tetris {
           this.status = STATUS.over
           this.stopAnimate()
         } else {
-          const lines = getCompletedLines(this.matrix, this.currentGraph).length
-          this.addScore(lines)
-          this.settleGraph(this.currentGraph, this.nextGraph, lines)
           this.startMoveStraightDown = false
+          const lines = getCompletedLines(this.matrix, this.currentGraph)
+          const score = lines.length
+          if (score > 0) {
+            this.clearLineAnimate(lines)
+          } else {
+            this.addScore(score)
+            this.settleGraph(lines)
+          }
         }
         break
       }
     }
+  }
+
+  clearLineAnimate = (lines) => {
+    this.animateCtrl = false
+    setTimeout(() => {
+      lines.forEach(line => {
+        this.matrix[line] = this.matrix[line].fill('#eee')
+      })
+      setTimeout(() => {
+        this.addScore(lines.length)
+        this.settleGraph(lines)
+        this.animateCtrl = true
+      }, 500)
+    }, 200)
   }
 
   @action addScore = lines => {
@@ -173,8 +197,8 @@ class Tetris {
     this.score += Math.pow(lines, 2) * 100
   }
 
-  @action settleGraph = () => {
-    this.matrix = getNewMatrix(this.matrix, this.currentGraph)
+  @action settleGraph = lines => {
+    this.matrix = getNewMatrix(this.matrix, this.currentGraph, lines)
     this.currentGraph = {
       ...this.nextGraph,
       offsetX: 3,
