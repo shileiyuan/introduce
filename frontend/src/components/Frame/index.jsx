@@ -20,16 +20,6 @@ export default class Frame extends React.Component {
   }
   toggleHeader = () => {
     this.props.globalStore.toggleHeader()
-    const { delayExpandHeader } = this.state
-    if (delayExpandHeader) {
-      // 如果现在header是展开的状态，那么点击之后，layoutContent的高度是要从小变大的
-      // 因为header高度是渐变的，所以layoutContent的高度的变大也必须要滞后，才能避免出现滚动条
-      setTimeout(() => {
-        this.setState({ delayExpandHeader: !delayExpandHeader })
-      }, 500)
-    } else {
-      this.setState({ delayExpandHeader: !delayExpandHeader })
-    }
   }
   componentDidMount() {
     const { getUserInfo, userName } = this.props.globalStore
@@ -40,7 +30,7 @@ export default class Frame extends React.Component {
   render() {
     const { userName, logout, headerExpand } = this.props.globalStore
     const { pathname } = this.props.location
-    const { siderExpand, delayExpandHeader } = this.state
+    const { siderExpand } = this.state
     return (
       <div className='layout'>
         <Transition in={headerExpand} timeout={500}>
@@ -70,14 +60,7 @@ export default class Frame extends React.Component {
               </div>
             )}
           </Transition>
-          <Content className='layout-content' style={{ height: `calc(100vh - ${delayExpandHeader ? '94px' : '30px'})` }}>
-            {/* {
-              React.Children.map(this.props.children, (child) => {
-                return React.cloneElement(child, {
-                  headerExpand
-                })
-              })
-            } */}
+          <Content className='layout-content' style={{ height: `calc(100vh - ${headerExpand ? '94px' : '30px'})` }}>
             {this.props.children}
           </Content>
         </Layout>
