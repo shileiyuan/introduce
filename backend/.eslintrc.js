@@ -1,5 +1,6 @@
 module.exports = {
   extends: 'eslint-config-egg',
+  parser: 'babel-eslint',
   rules: {
     'space-before-function-paren': 0,
     'comma-dangle': 0,

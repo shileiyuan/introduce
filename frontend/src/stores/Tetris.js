@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx'
+import { observable, action, runInAction } from 'mobx'
 import {
   getInitialMatrix,
   getRandomGraph,
@@ -181,8 +181,10 @@ class Tetris {
   clearLineAnimate = (lines) => {
     this.animateCtrl = false
     setTimeout(() => {
-      lines.forEach(line => {
-        this.matrix[line] = this.matrix[line].fill('#eee')
+      runInAction(() => {
+        lines.forEach(line => {
+          this.matrix[line] = this.matrix[line].fill('#eee')
+        })
       })
       setTimeout(() => {
         this.addScore(lines.length)

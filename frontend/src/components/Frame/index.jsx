@@ -1,20 +1,25 @@
 import React from 'react'
 import { observer, inject } from 'mobx-react'
 import { Layout, Icon } from 'antd'
+import { Transition } from 'react-transition-group'
 import SideBar from './SideBar'
 import AvatarBtn from './AvatarBtn'
 import './index.less'
 
-const { Header, Sider, Content } = Layout
+const { Content } = Layout
 
 @inject('globalStore')
 @observer
 export default class Frame extends React.Component {
   state = {
-    siderOpen: true
+    siderOpen: true,
+    headerOpen: true
   }
-  toggleSider = siderOpen => {
-    this.setState({ siderOpen })
+  toggleSider = () => {
+    this.setState({ siderOpen: !this.state.siderOpen })
+  }
+  toggleHeader = () => {
+    this.setState({ headerOpen: !this.state.headerOpen })
   }
   componentDidMount() {
     const { getUserInfo, userName } = this.props.globalStore
@@ -27,24 +32,25 @@ export default class Frame extends React.Component {
     const { pathname } = this.props.location
     const { siderOpen } = this.state
     return (
-      <Layout className='layout'>
-        <Header className='layout-header'>
-          {
-            siderOpen
-              ? <Icon type='double-right' onClick={() => this.toggleSider(false)} />
-              : <Icon type='double-left' onClick={() => this.toggleSider(true)} />
-          }
+      <div className='layout'>
+        <div className='layout-header'>
+          <Icon type={siderOpen ? 'double-right' : 'double-left'} onClick={this.toggleSider} className='sider-arrow' />
           <AvatarBtn name={userName} logout={logout} />
-        </Header>
+        </div>
+
         <Layout className='layout-container'>
-          {siderOpen && <Sider className='layout-sider'>
-            <SideBar pathname={pathname} />
-          </Sider>}
+          <Transition in={siderOpen} timeout={500}>
+            {status => (
+              <div className={cls('layout-sider', status)}>
+                <SideBar pathname={pathname} />
+              </div>
+            )}
+          </Transition>
           <Content className='layout-content'>
             {this.props.children}
           </Content>
         </Layout>
-      </Layout>
+      </div>
     )
   }
 }
