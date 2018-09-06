@@ -7,6 +7,7 @@ class Global {
   @observable isAuthed = Boolean(localStorage.getItem(CONFIG.AUTH_TOKEN_STORAGE_KEY))
   @observable userName = ''
   @observable userId = ''
+  @observable headerExpand = true
 
   @action login = async ({ name, password }) => {
     const response = await request.post(API.login, { name, password })
@@ -38,6 +39,10 @@ class Global {
       }
     })
     return response.success
+  }
+
+  @action toggleHeader = () => {
+    this.headerExpand = !this.headerExpand
   }
 }
 export default new Global()

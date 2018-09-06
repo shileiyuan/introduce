@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
 import { observer } from 'mobx-react'
 import { DropTarget } from 'react-dnd'
 import CONFIG from '../../utils/config'
 import DraggableTask from './DraggableTask'
 
 const { OFFSET_HEIGHT, TASK_HEIGHT, TASK_MARGIN, DND_TYPES: { TASK } } = CONFIG
-function getPlaceholderIndex(y, scrollY) {
+function getPlaceholderIndex(y, scrollY, headerExpand) {
+  console.log(scrollY)
   // shift placeholder if y position more than card height / 2
-  const yPos = y - OFFSET_HEIGHT + scrollY
+  const offsetHeight = headerExpand ? OFFSET_HEIGHT : OFFSET_HEIGHT - 64
+  const yPos = y - offsetHeight + scrollY
   let placeholderIndex
   if (yPos < TASK_HEIGHT / 2) {
     placeholderIndex = 0 // place at the start
@@ -34,7 +35,9 @@ const target = {
   },
   hover(props, monitor, component) {
     const { y } = monitor.getClientOffset()
-    const placeholderIndex = getPlaceholderIndex(y, findDOMNode(component).scrollTop)
+    const headerExpand = component.props.headerExpand
+    const scrollTop = document.querySelector('.layout-content').scrollTop
+    const placeholderIndex = getPlaceholderIndex(y, scrollTop, headerExpand)
     component.setState({ placeholderIndex })
     const item = monitor.getItem()
     document.getElementById(item.task.id).style.display = 'none'
@@ -70,7 +73,6 @@ class LaneBody extends Component {
             isPlaceHold = true
           }
         }
-
         taskList.push(<DraggableTask key={task.id} task={task} index={i} onClick={onTaskClick} deleteTask={deleteTask} />)
       })
 

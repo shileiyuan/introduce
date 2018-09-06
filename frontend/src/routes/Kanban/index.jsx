@@ -25,7 +25,7 @@ export default class Kanban extends React.Component {
     this.props.kanbanStore.queryList()
   }
   render() {
-    const { userId } = this.props.globalStore
+    const { userId, headerExpand } = this.props.globalStore
     const { lanes, tasksMap, moveTask, addTask, deleteTask } = this.props.kanbanStore
     const { filterText, filterOwn } = this.state
     return (
@@ -52,6 +52,7 @@ export default class Kanban extends React.Component {
                   filterText={filterText}
                   filterOwn={filterOwn}
                   userId={userId}
+                  headerExpand={headerExpand}
                 />
               )
             })

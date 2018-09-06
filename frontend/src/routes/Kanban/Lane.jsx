@@ -99,7 +99,7 @@ class Lane extends Component {
 
   render() {
     const { modalVisible, currentTask } = this.state
-    const { lane, tasks, moveTask, deleteTask, filterText, filterOwn, userId } = this.props
+    const { lane, tasks, moveTask, deleteTask, filterText, filterOwn, userId, headerExpand } = this.props
     return (
       <div className='lane'>
         <h3 className='lane-title'>{lane.title}</h3>
@@ -112,6 +112,7 @@ class Lane extends Component {
           filterText={filterText}
           filterOwn={filterOwn}
           userId={userId}
+          headerExpand={headerExpand}
         />
         {this.renderFooter()}
         <DetailModal visible={modalVisible} task={currentTask} onCancel={this.closeModal} />

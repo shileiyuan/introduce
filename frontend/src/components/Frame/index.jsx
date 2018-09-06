@@ -12,14 +12,14 @@ const { Content } = Layout
 @observer
 export default class Frame extends React.Component {
   state = {
-    siderOpen: true,
-    headerOpen: true
+    siderExpand: true,
+    headerExpand: true
   }
   toggleSider = () => {
-    this.setState({ siderOpen: !this.state.siderOpen })
+    this.setState({ siderExpand: !this.state.siderExpand })
   }
   toggleHeader = () => {
-    this.setState({ headerOpen: !this.state.headerOpen })
+    this.props.globalStore.toggleHeader()
   }
   componentDidMount() {
     const { getUserInfo, userName } = this.props.globalStore
@@ -28,25 +28,46 @@ export default class Frame extends React.Component {
     }
   }
   render() {
-    const { userName, logout } = this.props.globalStore
+    const { userName, logout, headerExpand } = this.props.globalStore
     const { pathname } = this.props.location
-    const { siderOpen } = this.state
+    const { siderExpand } = this.state
     return (
       <div className='layout'>
-        <div className='layout-header'>
-          <Icon type={siderOpen ? 'double-right' : 'double-left'} onClick={this.toggleSider} className='sider-arrow' />
-          <AvatarBtn name={userName} logout={logout} />
-        </div>
+        <Transition in={headerExpand} timeout={500}>
+          {status => (
+            <div>
+              <div className={cls('layout-header', status)}>
+                <AvatarBtn name={userName} logout={logout} />
+              </div>
+              <div className={cls('expand-header-arrow-wrapper', status)} onClick={this.toggleHeader}>
+                <Icon
+                  type={headerExpand ? 'double-left' : 'double-right'}
+                  className='expand-header-arrow'
+                />
+              </div>
+            </div>
+          )}
+        </Transition>
 
         <Layout className='layout-container'>
-          <Transition in={siderOpen} timeout={500}>
+          <Transition in={siderExpand} timeout={500}>
             {status => (
               <div className={cls('layout-sider', status)}>
-                <SideBar pathname={pathname} />
+                <div className={cls('expand-sider-wrapper', status)} onClick={this.toggleSider}>
+                  <Icon type={siderExpand ? 'double-right' : 'double-left'} className='sider-arrow' />
+                </div>
+                <SideBar pathname={pathname} className={status} />
               </div>
             )}
           </Transition>
-          <Content className='layout-content'>
+          <Content className='layout-content' style={{ height: `calc(100vh - ${headerExpand ? '94px' : '30px'})` }}>
+            {/* {
+              React.Children.map(this.props.children, (child) => {
+                return React.cloneElement(child, {
+                  headerExpand
+                })
+              })
+            } */}
             {this.props.children}
           </Content>
         </Layout>

@@ -1,19 +1,28 @@
 @import '../../../assets/styles/vars.less';
-// entering entered exiting exited
 
+// entered -> exiting -> exited -> entering
 .layout {
   display: flex;
   flex-flow: column nowrap;
   &-header {
+    position: relative;
     background: #FFF;
     box-shadow: 0 2px 8px #f0f1f2;
-    transition: all .3s;
-    z-index: 10;
     padding: 0 50px;
     height: 64px;
     line-height: 64px;
-    .sider-arrow {
-      cursor: pointer;
+    overflow: hidden;
+    &.exiting {
+      height: 0;
+      line-height: 0;
+      transition: all 500ms cubic-bezier(0.08, 0.82, 0.17, 1);
+    }
+    &.exited {
+      height: 0;
+      line-height: 0;
+    }
+    &.entering {
+      transition: all 500ms cubic-bezier(0.08, 0.82, 0.17, 1);
     }
     .avatar-container {
       float: right;
@@ -30,34 +39,75 @@
       }
     }
   }
+  .expand-header-arrow-wrapper {
+    height: 20px;
+    line-height: 20px;
+    width: 100%;
+    position: absolute;
+    top: 44px;
+    cursor: pointer;
+    text-align: center;
+    color: transparent;
+    &:hover {
+      color: #2B96FF;
+    }
+    &.exiting {
+      top: 0;
+      transition: all 500ms cubic-bezier(0.08, 0.82, 0.17, 1);
+    }
+    &.exited {
+      top: 0;
+    }
+    &.entering {
+      transition: all 500ms cubic-bezier(0.08, 0.82, 0.17, 1);
+    }
+  }
+  .expand-header-arrow {
+    text-align: center;
+    transform: rotate(90deg);
+  }
+
 
   &-container {
     padding-top: @layoutContainerPaddingTop;
     background: #FFF;
     flex-direction: row;
+    padding-bottom: 10px;
   }
 
   &-sider {
     width: 200px;
+    padding-left: 20px;
     overflow: hidden;
+    .expand-sider-wrapper {
+      padding-left: 16px;
+      cursor: pointer;
+      &:hover {
+        color: #2B96FF;
+      }
+    }
     .side-bar {
-      padding-left: 20px;
       height: 100%;
+      &.exited {
+        padding-left: 0;
+      }
     }
     &.exiting {
-      width: 0;
+      width: 40px;
+      padding-left: 0;
       transition: all  500ms cubic-bezier(0.08, 0.82, 0.17, 1);
     }
     &.exited {
-      width: 0;
+      width: 40px;
+      padding-left: 0;
     }
     &.entering {
-      width: 200px;
       transition: all 500ms cubic-bezier(0.08, 0.82, 0.17, 1);
     }
   }
 
   &-content {
-    height: ~'calc(100vh - 84px)';
+    // height: ~'calc(100vh - 84px)';
+    overflow: auto;
   }
 }
