@@ -1,0 +1,54 @@
+div {
+  box-sizing: border-box;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: #F9FAFC;
+}
+// 这一段不写对显示效果也没有影响
+#app-root, #layout {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+#layout-header {
+  height: 55px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #FFF;
+}
+
+#layout-body {
+  position: absolute;
+  top: 55px;
+  bottom: 0;
+  width: 100%;
+  #layout-sider {
+    float: left;
+    height: 100%;
+    width: 200px;
+    background-color: #CCC;
+  }
+  #layout-content {
+    height: 100%;
+    overflow: auto;
+  }
+}
+
+.item {
+  // width: 100px;
+  display: table;
+  
+  height: 100px;
+  margin: auto;
+  background: #ccc;
+}
+
+
+

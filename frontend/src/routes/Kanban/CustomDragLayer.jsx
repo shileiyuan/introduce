@@ -4,14 +4,17 @@ import TaskDragPreview from './TaskDragPreview'
 import CONFIG from '../../utils/config'
 
 const layerStyles = {
-  // border: '1px solid black',
+  // border: '10px solid black',
   position: 'fixed',
   pointerEvents: 'none',
   zIndex: 100000,
   left: 0,
   top: 0,
-  width: 0,
-  height: 0
+  right: 0,
+  bottom: 0,
+  // width: 0,
+  // height: 0
+  cursor: 'move'
 }
 
 function getItemStyles(props) {

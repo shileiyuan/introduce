@@ -11,7 +11,9 @@ class TaskDragPreview extends Component {
     const style = {
       ...styles,
       width,
-      height
+      height,
+      cursor: 'move',
+      border: '1px solid red'
     }
     return (
       <div style={style}>

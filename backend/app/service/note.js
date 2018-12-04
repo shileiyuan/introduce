@@ -48,8 +48,13 @@ class NoteService extends Service {
       const notes = []
       for (const name of notesName) {
         const notePath = bookPath + name + '/'
-        const noteMeta = await fs.readFile(notePath + 'meta.json')
-        notes.push(JSON.parse(noteMeta))
+        const noteMetaStr = await fs.readFile(notePath + 'meta.json')
+        const noteMeta = JSON.parse(noteMetaStr)
+        noteMeta.createTime = noteMeta.created_at
+        noteMeta.updateTime = noteMeta.updated_at
+        delete noteMeta.created_at
+        delete noteMeta.updated_at
+        notes.push(noteMeta)
       }
       const book = { uuid: item.uuid, name: bookInfo.name, notes }
       list.push(book)
